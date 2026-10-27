@@ -1,16 +1,30 @@
-## Hi there 👋
+<div align="center">
 
-<!--
-**promptjicode/promptjicode** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# PromptjiCode
 
-Here are some ideas to get you started:
+**اكتبها صح… بتطلع صح ✍️**
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+مبرمج فرونت إند، بجرّب البرومبتات بعين المبرمج:
+نفس الطلب مكتوب مرتين، والفرق بالتصميم وبالكود.
+
+</div>
+
+---
+
+## الريلات
+
+كل مجلد هو ريل: فيه البرومبت اللي استخدمته، والكود اللي طلع، وبيشتغل بالمتصفح مباشرة.
+
+| # | الريل | البرومبت | الكود |
+|---|---|---|---|
+| 01 | نفس الطلب… شوف الفرق (صفحة مقهى) | [prompt.md](01-habba-cafe/prompt.md) | [index.html](01-habba-cafe/index.html) |
+
+## كيف تجرّب
+
+1. افتح مجلد الريل.
+2. انسخ البرومبت من `prompt.md` وجرّبه بأداة الذكاء الاصطناعي اللي بتستخدمها.
+3. قارن نتيجتك بـ `index.html`.
+
+## تابع القناة
+
+إنستغرام · تيك توك · فيسبوك · يوتيوب: **@promptjicode**
