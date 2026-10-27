@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حبّة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bean:#3b2418;--roast:#6b3f26;--crema:#f4e7d3;--foam:#fbf5ec;--caramel:#c98a4b}
+*{box-sizing:border-box}
+body{margin:0;font-family:Cairo,sans-serif;background:var(--foam);color:var(--bean)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+.logo{font-weight:900;font-size:26px;letter-spacing:-.5px}
+.logo span{color:var(--caramel)}
+.nav-btn{border:1.5px solid var(--bean);border-radius:99px;padding:4px 14px;font-size:13px;font-weight:700}
+.hero{margin:6px 16px 0;border-radius:28px;background:radial-gradient(120% 90% at 85% 0%,#8a5434 0%,var(--bean) 60%);color:var(--crema);padding:38px 24px 30px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;border:26px solid rgba(201,138,75,.25)}
+.tag{display:inline-block;background:rgba(244,231,211,.15);border-radius:99px;padding:3px 12px;font-size:12px;margin-bottom:14px}
+.hero h1{font-size:40px;line-height:1.15;margin:0 0 12px;font-weight:900}
+.hero h1 em{font-style:normal;color:var(--caramel)}
+.hero p{margin:0 0 22px;line-height:1.7;opacity:.85;font-size:15px}
+.cta{display:inline-block;background:var(--caramel);color:var(--bean);font-weight:900;padding:12px 26px;border-radius:99px;font-size:16px;position:relative;z-index:1}
+h2{font-size:22px;font-weight:900;margin:34px 20px 14px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.item{background:#fff;border-radius:20px;padding:16px;box-shadow:0 6px 18px rgba(59,36,24,.07)}
+.cup{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:22px;margin-bottom:10px}
+.item b{display:block;font-size:15px}
+.item small{color:var(--roast);opacity:.75;font-size:12px}
+.price{margin-top:8px;font-weight:900;color:var(--caramel)}
+.hours{margin:0 16px;background:var(--crema);border-radius:22px;padding:18px 20px}
+.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(59,36,24,.2);font-size:15px}
+.row:last-child{border:0}
+.row b{font-weight:700}
+.book{margin:22px 16px 30px;background:var(--bean);color:var(--crema);border-radius:22px;padding:22px;text-align:center}
+.book p{margin:0 0 14px;font-size:15px;opacity:.85}
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+footer{text-align:center;font-size:12px;color:var(--roast);opacity:.7;padding-bottom:24px}
+</style>
+</head>
+<body>
+<nav><div class="logo">حبّة<span>.</span></div><div class="nav-btn">القائمة</div></nav>
+<div class="hero">
+  <div class="tag">☕ بقلب الحارة القديمة</div>
+  <h1>قهوتك<br><em>بتستنّاك</em> هون</h1>
+  <p>زاوية دافية للدراسة والسهرة مع الشلّة. واي فاي سريع، وكهربا لكل طاولة.</p>
+  <span class="cta">احجز طاولة</span>
+</div>
+<h2 class="reveal">شو بتشرب اليوم؟</h2>
+<div class="menu reveal">
+  <div class="item"><div class="cup" style="background:#f1dcc4">☕</div><b>إسبريسو</b><small>دبل شوت</small><div class="price">٤٥</div></div>
+  <div class="item"><div class="cup" style="background:#efe2d6">🥛</div><b>لاتيه</b><small>حليب ناعم</small><div class="price">٦٥</div></div>
+  <div class="item"><div class="cup" style="background:#f3d9b8">🍯</div><b>لاتيه عسل</b><small>توقيع حبّة</small><div class="price">٧٥</div></div>
+  <div class="item"><div class="cup" style="background:#e0e8dc">🧊</div><b>كولد برو</b><small>منقوع ١٨ ساعة</small><div class="price">٧٠</div></div>
+  <div class="item"><div class="cup" style="background:#f2e0cf">🫖</div><b>شاي تركي</b><small>بالبريق</small><div class="price">٢٥</div></div>
+  <div class="item"><div class="cup" style="background:#e9d7e3">🍫</div><b>موكا</b><small>شوكولا داكنة</small><div class="price">٧٠</div></div>
+</div>
+<h2 class="reveal">أوقات الدوام</h2>
+<div class="hours reveal">
+  <div class="row"><span>السبت – الخميس</span><b>٨ الصبح – ١٢ الليل</b></div>
+  <div class="row"><span>الجمعة</span><b>٢ الظهر – ١ الليل</b></div>
+  <div class="row"><span>أيام الامتحانات</span><b>للصبح 🌙</b></div>
+</div>
+<div class="book reveal">
+  <p>جاي مع الشلّة؟ احجز قبل ما تمتلي</p>
+  <span class="cta">احجز طاولة</span>
+</div>
+<footer>حبّة · صُنعت بحب</footer>
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add('in'));
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
