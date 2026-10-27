@@ -1,5 +1,7 @@
 # 01 · نفس الطلب… شوف الفرق
 
+**▶ [افتح الصفحة شغّالة](https://promptjicode.github.io/promptjicode/01-habba-cafe/)**
+
 ## البرومبت الضعيف
 
 ```
