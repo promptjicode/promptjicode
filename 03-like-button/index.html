@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>زر لايك: الضعيف والصح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --love: #ff4d6d; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; align-items: center; padding: 32px 16px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 28px; text-align: center; max-width: 440px; line-height: 1.7; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; max-width: 520px; }
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 22px 12px 26px; text-align: center; }
+  .label { font-size: 14px; font-weight: 700; color: var(--muted); margin-bottom: 18px; }
+
+  /* 1) What the weak prompt gave */
+  .basic-like { font-family: inherit; font-size: 16px; padding: 10px 22px; border: 1px solid #999; background: #eee; color: #333; border-radius: 4px; cursor: pointer; }
+  .basic-like.liked { background: #e33; color: #fff; }
+
+  /* 2) What the detailed prompt gave */
+  .like { position: relative; width: 84px; height: 84px; border: 0; border-radius: 50%; background: rgba(255,255,255,.04); cursor: pointer; display: inline-grid; place-items: center; }
+  .like:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  .like svg { width: 46px; height: 46px; fill: var(--muted); transition: fill .3s ease; }
+  .like[aria-pressed="true"] svg { fill: var(--love); animation: pop .45s ease-out; }
+  @keyframes pop { 40% { transform: scale(1.3); } 70% { transform: scale(.9); } }
+  .spark { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: var(--love); pointer-events: none; animation: fly .6s ease-out forwards; }
+  @keyframes fly { to { transform: translate(var(--x), var(--y)) scale(.2); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .like svg { animation: none !important; transition: none; }
+    .spark { display: none; }
+  }
+
+  footer { margin-top: auto; padding-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>زر واحد… <em>وفرق كبير بالإحساس</em></h1>
+  <p class="sub">نفس الطلب ببرومبتين. اضغط على الزرين، وجرّب كمان بزر Tab وEnter من الكيبورد.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="label">البرومبت الضعيف</div>
+      <button class="basic-like" type="button" id="basic">لايك</button>
+    </div>
+    <div class="card">
+      <div class="label">البرومبت الصح</div>
+      <button class="like" type="button" aria-pressed="false" aria-label="إعجاب" id="like">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.4 5 6.9 5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.5 0 5.7 3.6 4.4 6.8C19.5 16.4 12 21 12 21z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+
+<script>
+  // Weak prompt: toggles a class, nothing else.
+  document.querySelector('#basic').addEventListener('click', (e) => e.target.classList.toggle('liked'));
+
+  // Detailed prompt: real state for screen readers + a small burst.
+  const like = document.querySelector('#like');
+  like.addEventListener('click', () => {
+    const on = like.getAttribute('aria-pressed') !== 'true';
+    like.setAttribute('aria-pressed', String(on));
+    if (on) burst(like);
+  });
+
+  function burst(el) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('span');
+      const a = (i / 8) * Math.PI * 2;
+      s.className = 'spark';
+      s.style.setProperty('--x', `${Math.cos(a) * 46}px`);
+      s.style.setProperty('--y', `${Math.sin(a) * 46}px`);
+      s.addEventListener('animationend', () => s.remove());
+      el.appendChild(s);
+    }
+  }
+</script>
+</body>
+</html>
