@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فورم تسجيل: الضعيف والصح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; align-items: center; padding: 32px 16px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 28px; text-align: center; max-width: 520px; line-height: 1.7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; width: 100%; max-width: 760px; }
+  .tag { font-size: 14px; font-weight: 700; margin-bottom: 10px; text-align: center; }
+  .tag.bad { color: var(--bad); } .tag.good { color: var(--good); }
+
+  /* 1) What the weak prompt gave */
+  .basic { background: #fff; color: #222; border-radius: 8px; padding: 24px; font-family: Arial, sans-serif; }
+  .basic h2 { margin: 0 0 12px; font-size: 22px; }
+  .basic .error { color: #d00; font-weight: 700; min-height: 1.4em; margin: 0 0 8px; }
+  .basic label { display: block; font-size: 14px; margin-bottom: 4px; }
+  .basic input { width: 100%; padding: 8px; margin-bottom: 14px; border: 1px solid #aaa; border-radius: 3px; font-size: 16px; }
+  .basic button { width: 100%; padding: 10px; background: #007bff; color: #fff; border: 0; border-radius: 3px; font-size: 16px; cursor: pointer; }
+
+  /* 2) What the detailed prompt gave */
+  .signup { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 24px; }
+  .signup h2 { margin: 0 0 14px; font-size: 24px; font-weight: 900; }
+  .field { margin-bottom: 14px; }
+  .signup label { display: block; font-size: 14px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+  .signup input { width: 100%; padding: 12px 14px; font: inherit; font-size: 16px; color: var(--ink); background: #140e0a; border: 2px solid var(--line); border-radius: 12px; outline: none; }
+  .signup input:focus { border-color: var(--accent); }
+  .signup input[aria-invalid="true"] { border-color: var(--bad); }
+  .signup input.ok { border-color: var(--good); }
+  .err { color: var(--bad); font-size: 14px; font-weight: 700; min-height: 1.3em; margin: 6px 0 0; }
+  .rules { list-style: none; padding: 0; margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+  .rules li::before { content: "○ "; }
+  .rules li.met { color: var(--good); }
+  .rules li.met::before { content: "✓ "; }
+  .signup button { width: 100%; margin-top: 6px; padding: 14px; font: inherit; font-size: 17px; font-weight: 900; color: #1a0f09; background: var(--accent); border: 0; border-radius: 12px; cursor: pointer; }
+  .signup button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .done { color: var(--good); font-weight: 700; text-align: center; min-height: 1.4em; margin: 10px 0 0; }
+
+  footer { margin-top: auto; padding-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>هاد الفورم… <em>بيخسرك نص المسجلين</em></h1>
+  <p class="sub">نفس الطلب ببرومبتين. جرّب تكتب إيميل غلط بالفورمين، وجرّب من موبايلك لتشوف الاقتراحات التلقائية.</p>
+
+  <div class="grid">
+    <div>
+      <div class="tag bad">البرومبت الضعيف</div>
+      <form class="basic" id="basic" novalidate>
+        <h2>تسجيل حساب</h2>
+        <p class="error" id="basicError"></p>
+        <label>الاسم</label><input name="n">
+        <label>الإيميل</label><input name="e">
+        <label>كلمة السر</label><input name="p" type="password">
+        <button>تسجيل</button>
+      </form>
+    </div>
+
+    <div>
+      <div class="tag good">البرومبت الصح</div>
+      <form class="signup" id="signup" novalidate>
+        <h2>أنشئ حسابك</h2>
+
+        <div class="field">
+          <label for="name">الاسم</label>
+          <input id="name" name="name" autocomplete="name" required aria-describedby="name-err">
+          <p class="err" id="name-err" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">الإيميل</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" required aria-describedby="email-err">
+          <p class="err" id="email-err" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="pass">كلمة السر</label>
+          <input id="pass" name="password" type="password" autocomplete="new-password" dir="ltr" required aria-describedby="pass-rules">
+          <ul class="rules" id="pass-rules">
+            <li data-rule="len">8 أحرف أو أكتر</li>
+            <li data-rule="num">رقم واحد على الأقل</li>
+            <li data-rule="upper">حرف إنكليزي كبير</li>
+          </ul>
+        </div>
+
+        <button>إنشاء الحساب</button>
+        <p class="done" id="done" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+
+<script>
+  // Weak prompt: one vague message for the whole form.
+  document.querySelector('#basic').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = e.target;
+    const bad = !f.n.value || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.e.value) || f.p.value.length < 8;
+    document.querySelector('#basicError').textContent = bad ? '⚠ يوجد خطأ في البيانات' : '';
+  });
+
+  // Detailed prompt: clear Arabic message under the exact field, checked when you leave it.
+  const form = document.querySelector('#signup');
+  const nameIn = document.querySelector('#name');
+  const email = document.querySelector('#email');
+  const pass = document.querySelector('#pass');
+
+  function check(input) {
+    let msg = '';
+    if (input === nameIn && !input.value.trim()) msg = 'اكتب اسمك';
+    if (input === email) {
+      const v = input.value.trim();
+      if (!v) msg = 'اكتب إيميلك';
+      else if (!v.includes('@')) msg = 'الإيميل ناقصه @ · مثال: name@mail.com';
+      else if (!input.validity.valid || !/\.[^.@]+$/.test(v)) msg = 'الإيميل مو كامل · مثال: name@mail.com';
+    }
+    const err = document.getElementById(input.id + '-err');
+    if (err) err.textContent = msg;
+    input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    input.classList.toggle('ok', !msg && !!input.value);
+    return !msg;
+  }
+
+  // Check on blur, not on every key. Once a field shows an error, re-check as they fix it.
+  [nameIn, email].forEach((input) => {
+    input.addEventListener('blur', () => check(input));
+    input.addEventListener('input', () => { if (input.getAttribute('aria-invalid') === 'true') check(input); });
+  });
+
+  // Password rules tick live while typing.
+  const rules = { len: (v) => v.length >= 8, num: (v) => /\d/.test(v), upper: (v) => /[A-Z]/.test(v) };
+  function passOk() {
+    let all = true;
+    document.querySelectorAll('#pass-rules li').forEach((li) => {
+      const met = rules[li.dataset.rule](pass.value);
+      li.classList.toggle('met', met);
+      all = all && met;
+    });
+    pass.classList.toggle('ok', all);
+    return all;
+  }
+  pass.addEventListener('input', passOk);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ok = [check(nameIn), check(email), passOk()];
+    const firstBad = [nameIn, email, pass][ok.indexOf(false)];
+    if (firstBad) { firstBad.focus(); document.querySelector('#done').textContent = ''; return; }
+    document.querySelector('#done').textContent = 'تم! (هاد مثال، ما في حساب حقيقي)';
+  });
+</script>
+</body>
+</html>

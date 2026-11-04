@@ -20,6 +20,7 @@
 | 01 | نفس الطلب… شوف الفرق (صفحة مقهى) | [▶ افتح الصفحة](https://promptjicode.github.io/promptjicode/01-habba-cafe/) | [prompt.md](01-habba-cafe/prompt.md) | [index.html](01-habba-cafe/index.html) |
 | 02 | هالكود شغّال… بس بيكذب عليك (عداد تنازلي) | [▶ جرّب العدادين](https://promptjicode.github.io/promptjicode/02-countdown-timer/) | [prompt.md](02-countdown-timer/prompt.md) | [index.html](02-countdown-timer/index.html) |
 | 03 | زر واحد… وفرق كبير بالإحساس (زر لايك) | [▶ جرّب الزرين](https://promptjicode.github.io/promptjicode/03-like-button/) | [prompt.md](03-like-button/prompt.md) | [index.html](03-like-button/index.html) |
+| 04 | هاد الفورم… بيخسرك نص المسجلين (فورم تسجيل) | [▶ جرّب الفورمين](https://promptjicode.github.io/promptjicode/04-signup-form/) | [prompt.md](04-signup-form/prompt.md) | [index.html](04-signup-form/index.html) |
 
 ## كيف تجرّب
 
