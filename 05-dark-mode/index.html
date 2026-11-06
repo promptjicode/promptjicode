@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>زر Dark mode: الضعيف والصح</title>
+<script>
+  // Runs before the page paints, so a dark page never flashes white.
+  (function () {
+    const root = document.documentElement;
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'dark' : 'light';
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f7f3ee; --ink: #1f1611; --card: #ffffff; --line: #e6ddd2; --muted: #786858; --accent: #c27d3c; color-scheme: light; }
+  :root[data-theme="dark"] { --bg: #120c09; --ink: #fbf1e4; --card: #1f1611; --line: #3a2a20; --muted: #b9a593; --accent: #e2a15c; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; align-items: center; padding: 32px 16px; transition: background .3s, color .3s; }
+  @media (prefers-reduced-motion: reduce) { body { transition: none; } }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 28px; text-align: center; max-width: 520px; line-height: 1.7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; width: 100%; max-width: 720px; }
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 22px; text-align: center; }
+  .tag { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .tag.bad { color: #e05555; } .tag.good { color: #3fa865; }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 14px 0 0; }
+
+  /* 1) What the weak prompt gave: toggles a class on its own little box, remembers nothing */
+  .weak-box { border-radius: 14px; padding: 18px; background: #fff; color: #222; border: 1px solid #ddd; }
+  .weak-box.dark { background: #222; color: #eee; }
+  .weak-btn { font: inherit; margin-top: 10px; padding: 8px 18px; border-radius: 6px; border: 1px solid #999; background: #eee; cursor: pointer; }
+
+  /* 2) What the detailed prompt gave: the whole page, follows the phone, remembers the choice */
+  .toggle { font: inherit; font-size: 28px; width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+  .toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .state { font-weight: 700; margin-top: 10px; }
+  .reset { font: inherit; font-size: 13px; margin-top: 10px; background: none; border: 0; color: var(--accent); text-decoration: underline; cursor: pointer; }
+
+  footer { margin-top: auto; padding-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>الوضع الليلي… <em>بسطر واحد؟</em></h1>
+  <p class="sub">جرّب الزرين، وبعدين حدّث الصفحة (Refresh). وإذا موبايلك على الوضع الليلي، لاحظ كيف فتحت الصفحة من أول لحظة.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="tag bad">البرومبت الضعيف</div>
+      <div class="weak-box" id="weakBox">
+        صندوق تجريبي
+        <br><button class="weak-btn" id="weakBtn" type="button">🌙 Dark mode</button>
+      </div>
+      <p>بيقلب الألوان، بس حدّث الصفحة… رجع فاتح. وما بيعرف شو وضع موبايلك.</p>
+    </div>
+
+    <div class="card">
+      <div class="tag good">البرومبت الصح</div>
+      <button class="toggle" id="toggle" type="button" aria-label="تبديل الوضع الليلي"></button>
+      <div class="state" id="state" aria-live="polite"></div>
+      <button class="reset" id="reset" type="button">رجّع على وضع الموبايل</button>
+      <p>أول مرة بيمشي على وضع موبايلك، وبيحفظ اختيارك، وما بيومض أبيض.</p>
+    </div>
+  </div>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+
+<script>
+  // Weak prompt: one class toggle, nothing saved.
+  document.querySelector('#weakBtn').addEventListener('click', () => {
+    document.querySelector('#weakBox').classList.toggle('dark');
+  });
+
+  // Detailed prompt: whole page, saved choice, follows the phone until you choose.
+  const root = document.documentElement;
+  const toggle = document.querySelector('#toggle');
+  const state = document.querySelector('#state');
+  const media = matchMedia('(prefers-color-scheme: dark)');
+
+  function saved() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
+  function show() {
+    const dark = root.dataset.theme === 'dark';
+    toggle.textContent = dark ? '☀️' : '🌙';
+    toggle.setAttribute('aria-pressed', String(dark));
+    state.textContent = (dark ? 'غامق' : 'فاتح') + (saved() ? ' · اختيارك محفوظ' : ' · حسب وضع موبايلك');
+  }
+
+  toggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    show();
+  });
+
+  document.querySelector('#reset').addEventListener('click', () => {
+    try { localStorage.removeItem('theme'); } catch (e) {}
+    root.dataset.theme = media.matches ? 'dark' : 'light';
+    show();
+  });
+
+  // If the phone switches modes and the user never chose, follow it live.
+  media.addEventListener('change', (e) => {
+    if (!saved()) { root.dataset.theme = e.matches ? 'dark' : 'light'; show(); }
+  });
+
+  show();
+</script>
+</body>
+</html>
