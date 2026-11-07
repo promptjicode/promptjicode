@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>صفحة عربية: RTL لحالها ضد RTL كاملة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; align-items: center; padding: 32px 16px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 0 28px; text-align: center; max-width: 540px; line-height: 1.7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; width: 100%; max-width: 720px; }
+  .tag { font-size: 14px; font-weight: 700; margin-bottom: 10px; text-align: center; }
+  .tag.bad { color: var(--bad); } .tag.good { color: var(--good); }
+  .note { color: var(--muted); font-size: 13px; line-height: 1.7; margin-top: 10px; }
+
+  /* The little store, shared look */
+  .store { background: #f7f3ee; color: #1f1611; border-radius: 22px; overflow: hidden; }
+  .store header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #ece4da; }
+  .store header b { font-size: 18px; }
+  .store .img { height: 120px; margin: 16px 18px 0; border-radius: 14px; background: linear-gradient(135deg, #c98a4b, #6e4120); }
+  .store h3 { margin: 12px 18px 0; font-size: 18px; }
+  .store .price { margin: 2px 18px 0; color: #8a6a50; font-weight: 700; }
+  .add { display: inline-flex; align-items: center; margin: 12px 18px 0; padding: 10px 16px; border-radius: 12px; border: 0; background: #1f1611; color: #fbf1e4; font: inherit; font-weight: 900; cursor: pointer; }
+  .contact { margin: 14px 18px 0; padding: 10px 12px; border-radius: 12px; background: #fff; font-weight: 700; }
+  .pager { display: flex; justify-content: space-between; margin: 14px 18px 18px; }
+  .pager a { padding: 8px 14px; border-radius: 10px; background: #ece4da; color: inherit; text-decoration: none; font-weight: 900; }
+  .pager a.next { background: var(--accent); color: #1a0f09; }
+  .icon { width: 18px; height: 18px; vertical-align: -3px; }
+
+  /* 1) What "RTL" alone gave: physical left/right, arrows not flipped, number not isolated */
+  .weak .add svg { margin-right: 10px; }
+
+  /* 2) What the detailed prompt gave: logical properties, arrows flip, number isolated */
+  .good .add svg { margin-inline-end: 10px; }
+  .good .flip:dir(rtl) { transform: scaleX(-1); }
+
+  footer { margin-top: auto; padding-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>حطيتلو RTL… <em>ومع ذلك في شي مقلوب</em></h1>
+  <p class="sub">نفس الصفحة ببرومبتين. قارن سهم «التالي»، والمسافة جنب أيقونة السلة، ورقم الموبايل.</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="cart" viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11l2-8H6.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.6" fill="currentColor"/><circle cx="17" cy="19" r="1.6" fill="currentColor"/></symbol>
+  </svg>
+
+  <div class="grid">
+    <div>
+      <div class="tag bad">البرومبت الضعيف («بالعربي RTL»)</div>
+      <div class="store weak">
+        <header><b>☕ متجر حبّة</b><span>🔍</span></header>
+        <div class="img"></div>
+        <h3>بن إثيوبي · 250 غرام</h3>
+        <div class="price">85 ليرة</div>
+        <button class="add" type="button"><svg class="icon"><use href="#cart"/></svg>أضف للسلة</button>
+        <div class="contact">📞 للطلب: +90 555 123 45 67</div>
+        <nav class="pager"><a href="#">السابق</a><a class="next" href="#">التالي <svg class="icon"><use href="#arrow"/></svg></a></nav>
+      </div>
+      <p class="note">السهم بيأشّر لورا، والمسافة طلعت برّا الأيقونة، والرقم مخربط.</p>
+    </div>
+
+    <div>
+      <div class="tag good">البرومبت الصح</div>
+      <div class="store good">
+        <header><b>☕ متجر حبّة</b><span>🔍</span></header>
+        <div class="img"></div>
+        <h3>بن إثيوبي · 250 غرام</h3>
+        <div class="price">85 ليرة</div>
+        <button class="add" type="button"><svg class="icon"><use href="#cart"/></svg>أضف للسلة</button>
+        <div class="contact">📞 للطلب: <bdi dir="ltr">+90 555 123 45 67</bdi></div>
+        <nav class="pager"><a href="#">السابق</a><a class="next" href="#">التالي <svg class="icon flip"><use href="#arrow"/></svg></a></nav>
+      </div>
+      <p class="note">margin-inline بتنقلب لحالها، والسهم بينقلب بالـ RTL، و&lt;bdi&gt; بتخلي الرقم ينقرأ صح.</p>
+    </div>
+  </div>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+</body>
+</html>
