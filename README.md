@@ -1,47 +1,98 @@
 <div dir="rtl">
-
 <div align="center">
-
-# PromptjiCode
-
-**اكتبها صح… بتطلع صح ✍️**
-
-مبرمج فرونت إند، بجرّب البرومبتات بعين المبرمج:
-نفس الطلب مكتوب مرتين، والفرق بالتصميم وبالكود.
-
+<h1 dir="rtl">PromptjiCode</h1>
+<p dir="rtl"><strong>اكتبها صح… بتطلع صح ✍️</strong></p>
+<p dir="rtl">مبرمج فرونت إند، بجرّب البرومبتات بعين المبرمج:
+نفس الطلب مكتوب مرتين، والفرق بالتصميم وبالكود.</p>
 </div>
-
----
-
-## الريلات
-
-كل مجلد هو ريل: فيه البرومبت اللي استخدمته، والكود اللي طلع. اضغط **جرّب** لتفتح الصفحة شغّالة، حتى من الموبايل.
-
-| # | الريل | جرّب | البرومبت | الكود |
-|---|---|---|---|---|
-| 01 | نفس الطلب… شوف الفرق (صفحة مقهى) | [▶ افتح الصفحة](https://promptjicode.github.io/promptjicode/01-habba-cafe/) | [prompt.md](01-habba-cafe/prompt.md) | [index.html](01-habba-cafe/index.html) |
-| 02 | هالكود شغّال… بس بيكذب عليك (عداد تنازلي) | [▶ جرّب العدادين](https://promptjicode.github.io/promptjicode/02-countdown-timer/) | [prompt.md](02-countdown-timer/prompt.md) | [index.html](02-countdown-timer/index.html) |
-| 03 | زر واحد… وفرق كبير بالإحساس (زر لايك) | [▶ جرّب الزرين](https://promptjicode.github.io/promptjicode/03-like-button/) | [prompt.md](03-like-button/prompt.md) | [index.html](03-like-button/index.html) |
-| 04 | هاد الفورم… بيخسرك نص المسجلين (فورم تسجيل) | [▶ جرّب الفورمين](https://promptjicode.github.io/promptjicode/04-signup-form/) | [prompt.md](04-signup-form/prompt.md) | [index.html](04-signup-form/index.html) |
-| 05 | الوضع الليلي… بسطر واحد؟ (زر Dark mode) | [▶ جرّب الزرين](https://promptjicode.github.io/promptjicode/05-dark-mode/) | [prompt.md](05-dark-mode/prompt.md) | [index.html](05-dark-mode/index.html) |
-| 06 | حطيتلو RTL… ومع ذلك في شي مقلوب (صفحة عربية) | [▶ جرّب الصفحتين](https://promptjicode.github.io/promptjicode/06-rtl-store/) | [prompt.md](06-rtl-store/prompt.md) | [index.html](06-rtl-store/index.html) |
-
-## أسئلة المقابلات
-
-من سلسلة «سؤال مقابلة»: كل سؤال إلو صفحة تفاعلية بتجرّب فيها الفكرة بإيدك، وشرح للجواب.
-
-| # | السؤال | المستوى | الموضوع | جرّب | الشرح |
-|---|---|---|---|---|---|
-| 01 | شو بيطبع هالكود؟ | 🟡 Mid | Event Loop | [▶ امشي معه خطوة خطوة](https://promptjicode.github.io/promptjicode/interview/01-event-loop/) | [README](interview/01-event-loop/README.md) |
-
-## كيف تجرّب
-
-1. افتح مجلد الريل.
-2. انسخ البرومبت من `prompt.md` وجرّبه بأداة الذكاء الاصطناعي اللي بتستخدمها.
-3. قارن نتيجتك بالصفحة الحية من عمود **جرّب**.
-
-## تابع القناة
-
-إنستغرام · تيك توك · فيسبوك · يوتيوب: **@promptjicode**
-
+<hr />
+<h2 dir="rtl">الريلات</h2>
+<p dir="rtl">كل مجلد هو ريل: فيه البرومبت اللي استخدمته، والكود اللي طلع. اضغط <strong>جرّب</strong> لتفتح الصفحة شغّالة، حتى من الموبايل.</p>
+<table dir="rtl">
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="center">الريل</th>
+<th align="center">جرّب</th>
+<th align="center">البرومبت</th>
+<th align="center">الكود</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">01</td>
+<td align="center">نفس الطلب… شوف الفرق (صفحة مقهى)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/01-habba-cafe/">▶ افتح الصفحة</a></td>
+<td align="center"><a href="01-habba-cafe/prompt.md">prompt.md</a></td>
+<td align="center"><a href="01-habba-cafe/index.html">index.html</a></td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="center">هالكود شغّال… بس بيكذب عليك (عداد تنازلي)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/02-countdown-timer/">▶ جرّب العدادين</a></td>
+<td align="center"><a href="02-countdown-timer/prompt.md">prompt.md</a></td>
+<td align="center"><a href="02-countdown-timer/index.html">index.html</a></td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="center">زر واحد… وفرق كبير بالإحساس (زر لايك)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/03-like-button/">▶ جرّب الزرين</a></td>
+<td align="center"><a href="03-like-button/prompt.md">prompt.md</a></td>
+<td align="center"><a href="03-like-button/index.html">index.html</a></td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="center">هاد الفورم… بيخسرك نص المسجلين (فورم تسجيل)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/04-signup-form/">▶ جرّب الفورمين</a></td>
+<td align="center"><a href="04-signup-form/prompt.md">prompt.md</a></td>
+<td align="center"><a href="04-signup-form/index.html">index.html</a></td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="center">الوضع الليلي… بسطر واحد؟ (زر Dark mode)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/05-dark-mode/">▶ جرّب الزرين</a></td>
+<td align="center"><a href="05-dark-mode/prompt.md">prompt.md</a></td>
+<td align="center"><a href="05-dark-mode/index.html">index.html</a></td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="center">حطيتلو RTL… ومع ذلك في شي مقلوب (صفحة عربية)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/06-rtl-store/">▶ جرّب الصفحتين</a></td>
+<td align="center"><a href="06-rtl-store/prompt.md">prompt.md</a></td>
+<td align="center"><a href="06-rtl-store/index.html">index.html</a></td>
+</tr>
+</tbody>
+</table>
+<h2 dir="rtl">أسئلة المقابلات</h2>
+<p dir="rtl">من سلسلة «سؤال مقابلة»: كل سؤال إلو صفحة تفاعلية بتجرّب فيها الفكرة بإيدك، وشرح للجواب.</p>
+<table dir="rtl">
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="center">السؤال</th>
+<th align="center">المستوى</th>
+<th align="center">الموضوع</th>
+<th align="center">جرّب</th>
+<th align="center">الشرح</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">01</td>
+<td align="center">شو بيطبع هالكود؟</td>
+<td align="center">🟡 Mid</td>
+<td align="center">Event Loop</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/01-event-loop/">▶ امشي معه خطوة خطوة</a></td>
+<td align="center"><a href="interview/01-event-loop/README.md">README</a></td>
+</tr>
+</tbody>
+</table>
+<h2 dir="rtl">كيف تجرّب</h2>
+<ol dir="rtl">
+<li dir="rtl">افتح مجلد الريل.</li>
+<li dir="rtl">انسخ البرومبت من <code dir="ltr">prompt.md</code> وجرّبه بأداة الذكاء الاصطناعي اللي بتستخدمها.</li>
+<li dir="rtl">قارن نتيجتك بالصفحة الحية من عمود <strong>جرّب</strong>.</li>
+</ol>
+<h2 dir="rtl">تابع القناة</h2>
+<p dir="rtl">إنستغرام · تيك توك · فيسبوك · يوتيوب: <strong>@promptjicode</strong></p>
 </div>

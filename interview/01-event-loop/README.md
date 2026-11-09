@@ -1,9 +1,6 @@
 <div dir="rtl">
-
-# سؤال مقابلة #01 · شو بيطبع هالكود؟ (🟡 Mid)
-
-**▶ [امشي معه خطوة خطوة](https://promptjicode.github.io/promptjicode/interview/01-event-loop/)**: وشغّل الكود الحقيقي بمتصفحك.
-
+<h1 dir="rtl">سؤال مقابلة #01 · شو بيطبع هالكود؟ (🟡 Mid)</h1>
+<p dir="rtl"><strong>▶ <a href="https://promptjicode.github.io/promptjicode/interview/01-event-loop/">امشي معه خطوة خطوة</a></strong>: وشغّل الكود الحقيقي بمتصفحك.</p>
 </div>
 
 ```js
@@ -14,18 +11,16 @@ console.log(4);
 ```
 
 <div dir="rtl">
-
-## الجواب: `1 4 3 2`
-
-1. `console.log(1)` كود عادي، بيتنفّذ فوراً.
-2. `setTimeout` بيحط الدالة بطابور الـ **Macrotasks**، حتى لو الوقت 0.
-3. `then` بيحط الدالة بطابور الـ **Microtasks**.
-4. `console.log(4)` كود عادي كمان.
-5. فضي الـ Call Stack، فالمتصفح بيفضّي **كل** الـ Microtasks أول، فبيطبع 3.
-6. وبعدين بياخد **مهمة وحدة** من الـ Macrotasks، فبيطبع 2.
-
-## وهلّق إذا…؟
-
+<h2 dir="rtl">الجواب: <code dir="ltr">1 4 3 2</code></h2>
+<ol dir="rtl">
+<li dir="rtl"><code dir="ltr">console.log(1)</code> كود عادي، بيتنفّذ فوراً.</li>
+<li dir="rtl"><code dir="ltr">setTimeout</code> بيحط الدالة بطابور الـ <strong>Macrotasks</strong>، حتى لو الوقت 0.</li>
+<li dir="rtl"><code dir="ltr">then</code> بيحط الدالة بطابور الـ <strong>Microtasks</strong>.</li>
+<li dir="rtl"><code dir="ltr">console.log(4)</code> كود عادي كمان.</li>
+<li dir="rtl">فضي الـ Call Stack، فالمتصفح بيفضّي <strong>كل</strong> الـ Microtasks أول، فبيطبع 3.</li>
+<li dir="rtl">وبعدين بياخد <strong>مهمة وحدة</strong> من الـ Macrotasks، فبيطبع 2.</li>
+</ol>
+<h2 dir="rtl">وهلّق إذا…؟</h2>
 </div>
 
 ```js
@@ -41,11 +36,7 @@ console.log(6);
 ```
 
 <div dir="rtl">
-
-الجواب: `1 4 6 3 5 2`. الدالة الـ `async` بتبلّش فوراً لحد أول `await`، وباقيها بيروح على الـ Microtasks بعد `queueMicrotask`.
-
-## القاعدة
-
-كود عادي ← كل الـ Microtasks ← مهمة وحدة من الـ Macrotasks ← وهيك.
-
+<p dir="rtl">الجواب: <code dir="ltr">1 4 6 3 5 2</code>. الدالة الـ <code dir="ltr">async</code> بتبلّش فوراً لحد أول <code dir="ltr">await</code>، وباقيها بيروح على الـ Microtasks بعد <code dir="ltr">queueMicrotask</code>.</p>
+<h2 dir="rtl">القاعدة</h2>
+<p dir="rtl">كود عادي ← كل الـ Microtasks ← مهمة وحدة من الـ Macrotasks ← وهيك.</p>
 </div>
