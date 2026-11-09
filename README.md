@@ -24,6 +24,14 @@
 | 05 | الوضع الليلي… بسطر واحد؟ (زر Dark mode) | [▶ جرّب الزرين](https://promptjicode.github.io/promptjicode/05-dark-mode/) | [prompt.md](05-dark-mode/prompt.md) | [index.html](05-dark-mode/index.html) |
 | 06 | حطيتلو RTL… ومع ذلك في شي مقلوب (صفحة عربية) | [▶ جرّب الصفحتين](https://promptjicode.github.io/promptjicode/06-rtl-store/) | [prompt.md](06-rtl-store/prompt.md) | [index.html](06-rtl-store/index.html) |
 
+## أسئلة المقابلات
+
+من سلسلة «سؤال مقابلة»: كل سؤال إلو صفحة تفاعلية بتجرّب فيها الفكرة بإيدك، وشرح للجواب.
+
+| # | السؤال | المستوى | الموضوع | جرّب | الشرح |
+|---|---|---|---|---|---|
+| 01 | شو بيطبع هالكود؟ | 🟡 Mid | Event Loop | [▶ امشي معه خطوة خطوة](https://promptjicode.github.io/promptjicode/interview/01-event-loop/) | [README](interview/01-event-loop/README.md) |
+
 ## كيف تجرّب
 
 1. افتح مجلد الريل.

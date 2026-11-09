@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #01 · Event Loop خطوة خطوة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --blue: #9bb8ff; --violet: #d2a8ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 18px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tabs button, .btns button { font: inherit; font-weight: 900; border-radius: 12px; padding: 8px 16px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); }
+  .tabs button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .btns button.main { background: var(--accent); color: #1a0f09; border-color: var(--accent); }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .code { background: #0d1117; border: 2px solid #2a313c; border-radius: 16px; padding: 10px 0; direction: ltr; }
+  .code div { font-family: "JetBrains Mono", monospace; font-size: 15px; line-height: 30px; padding: 0 16px; white-space: pre; color: #c9d1d9; overflow-x: auto; }
+  .code div.hot { background: rgba(226,161,92,.14); box-shadow: inset 4px 0 0 var(--accent); }
+  .boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .box { min-height: 150px; border-radius: 16px; border: 2px solid; padding: 10px; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .box h3 { margin: 0; font-family: "JetBrains Mono", monospace; font-size: 14px; direction: ltr; }
+  .box small { color: var(--muted); font-size: 12px; margin-top: -6px; }
+  .st { border-color: #5b6b8a; } .st h3 { color: var(--blue); }
+  .mi { border-color: #6b4f8a; } .mi h3 { color: var(--violet); }
+  .ma { border-color: #8a6a3c; } .ma h3 { color: var(--accent); }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 14px; padding: 4px 10px; border-radius: 8px; background: #0d1117; border: 1px solid #2a313c; direction: ltr; animation: pop .25s ease-out; }
+  @keyframes pop { from { transform: scale(.7); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .chip { animation: none; } }
+  .console { margin-top: 12px; background: #0d1117; border: 2px solid #2a313c; border-radius: 14px; padding: 10px 16px; direction: ltr; display: flex; gap: 14px; align-items: center; }
+  .console span { color: #8b949e; font-family: "JetBrains Mono", monospace; font-size: 13px; }
+  .console b { font-family: "JetBrains Mono", monospace; font-size: 26px; color: var(--good); letter-spacing: 10px; }
+  .explain { margin-top: 12px; min-height: 56px; line-height: 1.8; font-weight: 700; }
+  .explain b { color: var(--accent); }
+  .real { margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .real code { color: var(--good); }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #01 · 🟡 Mid</span>
+  <h1>شو بيطبع هالكود؟ امشي معه خطوة خطوة</h1>
+  <p class="sub">اضغط «الخطوة الجاية» وشوف كل سطر وين بيروح: الـ Call Stack، أو طابور الـ Microtasks، أو طابور الـ Macrotasks. وبالآخر شغّل الكود الحقيقي بمتصفحك وتأكد.</p>
+
+  <div class="tabs" role="group" aria-label="اختار الكود">
+    <button type="button" data-s="q1" aria-pressed="true">السؤال</button>
+    <button type="button" data-s="q2" aria-pressed="false">وهلّق إذا…؟</button>
+  </div>
+
+  <div class="code" id="code"></div>
+  <div class="btns">
+    <button type="button" class="main" id="next">الخطوة الجاية ←</button>
+    <button type="button" id="reset">من الأول</button>
+    <button type="button" id="run">▶ شغّل الكود الحقيقي</button>
+  </div>
+
+  <div class="boxes">
+    <div class="box st"><h3>Call Stack</h3><small>عم يتنفّذ هلّق</small><div id="bS"></div></div>
+    <div class="box mi"><h3>Microtasks</h3><small>then · queueMicrotask · await</small><div id="bMi"></div></div>
+    <div class="box ma"><h3>Macrotasks</h3><small>setTimeout</small><div id="bMa"></div></div>
+  </div>
+  <div class="console"><span>console ›</span><b id="out"></b></div>
+  <p class="explain" id="explain" aria-live="polite"></p>
+  <p class="real" id="real"></p>
+
+  <section class="panel">
+    <p><b>القاعدة:</b> المتصفح بيخلّص الكود العادي كله أول. لما يفضى الـ Call Stack، بيفضّي <b>كل</b> الـ Microtasks (<code>then</code> و<code>queueMicrotask</code> وتكملة <code>await</code>)، وبعدين بياخد <b>مهمة وحدة</b> من الـ Macrotasks (<code>setTimeout</code>)، ويرجع يفضّي الـ Microtasks من جديد… وهيك.</p>
+    <p>لهيك <code>setTimeout(…, 0)</code> ما بيعني «فوراً»: بيعني «بعد ما يخلص كل شي هلّق، وبعد كل الـ Microtasks».</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  // Each scenario: the code, the real function to run, and the scripted steps.
+  // A step: { line, push: [box, label], pop: box, print, text }
+  const S = {
+    q1: {
+      code: [
+        'console.log(1);',
+        'setTimeout(() => console.log(2), 0);',
+        'Promise.resolve().then(() => console.log(3));',
+        'console.log(4);',
+      ],
+      run(log) {
+        log(1);
+        setTimeout(() => log(2), 0);
+        Promise.resolve().then(() => log(3));
+        log(4);
+      },
+      steps: [
+        { line: 0, stack: 'log(1)', print: '1', text: 'الكود العادي <b>بيتنفّذ فوراً</b> ← بيطبع 1' },
+        { line: 1, ma: 'log(2)', text: '<code>setTimeout</code> بيحط الدالة بطابور الـ <b>Macrotasks</b>… حتى لو الوقت 0' },
+        { line: 2, mi: 'log(3)', text: '<code>then</code> بيحط الدالة بطابور الـ <b>Microtasks</b>' },
+        { line: 3, stack: 'log(4)', print: '4', text: 'وبعدها كود عادي كمان ← بيطبع 4' },
+        { from: 'mi', print: '3', text: 'فضي الـ Call Stack؟ بيفضّي <b>كل الـ Microtasks أول</b> ← 3' },
+        { from: 'ma', print: '2', text: 'وبعدين <b>مهمة وحدة</b> من الـ Macrotasks ← 2' },
+      ],
+    },
+    q2: {
+      code: [
+        'console.log(1);',
+        'setTimeout(() => console.log(2), 0);',
+        'queueMicrotask(() => console.log(3));',
+        '(async () => {',
+        '  console.log(4);',
+        '  await null;',
+        '  console.log(5);',
+        '})();',
+        'console.log(6);',
+      ],
+      run(log) {
+        log(1);
+        setTimeout(() => log(2), 0);
+        queueMicrotask(() => log(3));
+        (async () => { log(4); await null; log(5); })();
+        log(6);
+      },
+      steps: [
+        { line: 0, stack: 'log(1)', print: '1', text: 'كود عادي ← 1' },
+        { line: 1, ma: 'log(2)', text: '<code>setTimeout</code> ← طابور الـ <b>Macrotasks</b>' },
+        { line: 2, mi: 'log(3)', text: '<code>queueMicrotask</code> ← طابور الـ <b>Microtasks</b>' },
+        { line: 4, stack: 'log(4)', print: '4', text: 'الدالة الـ <code>async</code> بتبلّش <b>فوراً</b> لحد أول <code>await</code> ← 4' },
+        { line: 5, mi: 'log(5)', text: '<code>await</code> بيوقّف الدالة، و<b>باقيها</b> بيروح على الـ <b>Microtasks</b>' },
+        { line: 8, stack: 'log(6)', print: '6', text: 'ورجعنا للكود العادي ← 6' },
+        { from: 'mi', print: '3', text: 'الـ Microtasks بالترتيب: أولهم <code>queueMicrotask</code> ← 3' },
+        { from: 'mi', print: '5', text: 'وبعده تكملة الـ <code>await</code> ← 5' },
+        { from: 'ma', print: '2', text: 'وآخر شي الـ Macrotask ← 2' },
+      ],
+    },
+  };
+
+  let cur = 'q1', i = 0, queues, printed;
+  const $ = (id) => document.getElementById(id);
+  const chip = (t) => `<div class="chip">${t}</div>`;
+
+  function reset() {
+    i = 0; queues = { mi: [], ma: [] }; printed = '';
+    $('code').innerHTML = S[cur].code.map((l) => `<div>${l.replace(/</g, '&lt;')}</div>`).join('');
+    draw(null, ''); $('explain').innerHTML = 'اضغط «الخطوة الجاية» لنبلّش.'; $('real').textContent = '';
+    $('next').disabled = false;
+  }
+  function draw(line, stack) {
+    [...$('code').children].forEach((d, k) => d.classList.toggle('hot', k === line));
+    $('bS').innerHTML = stack ? chip(stack) : '';
+    $('bMi').innerHTML = queues.mi.map(chip).join('');
+    $('bMa').innerHTML = queues.ma.map(chip).join('');
+    $('out').textContent = printed;
+  }
+  function next() {
+    const st = S[cur].steps[i]; if (!st) return;
+    let stack = st.stack || '';
+    if (st.mi) queues.mi.push(st.mi);
+    if (st.ma) queues.ma.push(st.ma);
+    if (st.from) stack = queues[st.from].shift();
+    if (st.print) printed += st.print;
+    draw(st.line ?? null, stack);
+    $('explain').innerHTML = st.text;
+    i++;
+    if (i >= S[cur].steps.length) { $('next').disabled = true; $('explain').innerHTML += ' ✓'; }
+  }
+  function runReal() {
+    const got = [];
+    S[cur].run((x) => got.push(x));
+    $('real').textContent = 'عم يشتغل…';
+    setTimeout(() => { $('real').innerHTML = `متصفحك طبع فعلاً: <code>${got.join(' ')}</code>`; }, 20);
+  }
+
+  document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => {
+    cur = b.dataset.s;
+    document.querySelectorAll('.tabs button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    reset();
+  }));
+  $('next').addEventListener('click', next);
+  $('reset').addEventListener('click', reset);
+  $('run').addEventListener('click', runReal);
+  reset();
+</script>
+</body>
+</html>
