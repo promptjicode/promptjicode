@@ -172,9 +172,10 @@
   }
   function runReal() {
     const got = [];
-    S[cur].run((x) => got.push(x));
+    console.log('%c▶ PromptjiCode · ' + (cur === 'q1' ? 'السؤال' : 'وهلّق إذا…؟'), 'color:#e2a15c;font-weight:bold');
+    S[cur].run((x) => { got.push(x); console.log(x); });
     $('real').textContent = 'عم يشتغل…';
-    setTimeout(() => { $('real').innerHTML = `متصفحك طبع فعلاً: <code>${got.join(' ')}</code>`; }, 20);
+    setTimeout(() => { $('real').innerHTML = `متصفحك طبع فعلاً: <code>${got.join(' ')}</code> (وطبعها كمان بالـ Console: افتحه بـ F12)`; }, 20);
   }
 
   document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => {

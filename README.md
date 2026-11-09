@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 <div align="center">
 
 # PromptjiCode
@@ -41,3 +43,5 @@
 ## تابع القناة
 
 إنستغرام · تيك توك · فيسبوك · يوتيوب: **@promptjicode**
+
+</div>
