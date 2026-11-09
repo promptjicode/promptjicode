@@ -92,6 +92,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/01-event-loop/">▶ امشي معه خطوة خطوة</a></td>
 <td align="center"><a href="interview/01-event-loop/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">02</td>
+<td align="center"><code dir="ltr">z-index: 9999</code>… وطلعت تحت؟</td>
+<td align="center">🔴 Senior</td>
+<td align="center">Stacking Context</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/02-stacking-context/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/02-stacking-context/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>

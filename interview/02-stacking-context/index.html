@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #02 · z-index والعلب (stacking context)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  h1 code { color: var(--accent); }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 22px; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-bottom: 18px; }
+  h2 { font-size: 20px; margin: 0 0 12px; }
+  @media (max-width: 600px) { .stage { height: 230px; } }
+  .panel.live { position: sticky; top: 8px; z-index: 50; box-shadow: 0 16px 40px rgba(0,0,0,.5); }
+
+  /* The live stage: real CSS, real stacking */
+  .stage { position: relative; height: 300px; border-radius: 16px; overflow: hidden; background: #f3ede4; color: #1f1611; }
+  .header { position: sticky; top: 0; z-index: 10; height: 64px; background: #1f1611; color: #fbf1e4; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-weight: 900; }
+  .header .mono { color: var(--accent); font-size: 13px; }
+  .content { padding: 20px 16px; }
+  .cardx { position: relative; margin-top: 30px; background: #fff; border-radius: 14px; padding: 14px; min-height: 160px; border: 2px dashed #d8cbb9; }
+  .cardx.ctx { border-color: var(--accent); background: #fff8ef; }
+  .cardx .lbl { font-size: 13px; color: #8a6a50; font-weight: 700; }
+  .modal { position: absolute; top: -70px; left: 50%; width: 230px; margin-left: -115px; border-radius: 14px; background: #fff; border: 3px solid var(--accent); padding: 22px 14px 16px; text-align: center; box-shadow: 0 16px 40px rgba(0,0,0,.25); }
+  .modal b { display: block; font-size: 18px; }
+  .modal .mono { font-size: 13px; color: #a5552a; }
+  .stage > .modal { top: 30px; }
+  .stage.out .cardx .modal { display: none; }
+  .stage:not(.out) > .modal { display: none; }
+
+  .result { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .pill { padding: 6px 14px; border-radius: 99px; font-weight: 900; font-size: 15px; border: 2px solid; }
+  .pill.ok { color: var(--good); border-color: rgba(125,220,154,.5); background: rgba(125,220,154,.08); }
+  .pill.no { color: var(--bad); border-color: rgba(255,107,107,.5); background: rgba(255,107,107,.08); }
+
+  .controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+  label.opt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #17110d; border: 2px solid var(--line); cursor: pointer; font-size: 14px; }
+  label.opt:has(input:checked) { border-color: var(--accent); }
+  label.opt input { accent-color: var(--accent); width: 18px; height: 18px; }
+  .range { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .range input { flex: 1; min-width: 160px; accent-color: var(--accent); }
+  .applied { margin-top: 12px; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 14px; font-size: 14px; color: #c9d1d9; white-space: pre-wrap; direction: ltr; text-align: left; }
+  .why { line-height: 1.9; color: #e9dccb; }
+  .why b { color: var(--accent); }
+  ul { margin: 6px 0 0; padding-inline-start: 22px; line-height: 1.9; }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #02 · 🔴 Senior</span>
+  <h1><code>z-index: 9999</code>… وطلعت تحت؟</h1>
+  <p class="sub">هالصفحة فيها CSS حقيقي. شغّل وطفّي الخصائص على <b>الكارد</b> (أبو النافذة)، والمتصفح نفسه بيقلّك إذا النافذة طلعت فوق الهيدر أو تحته.</p>
+
+  <section class="panel live">
+    <div class="stage" id="stage">
+      <div class="header">☕ الهيدر <span class="mono">z-index: 10</span></div>
+      <div class="content">
+        <div class="cardx" id="card"><span class="lbl">📦 الكارد</span>
+          <div class="modal" id="modalIn"><b>🪟 النافذة</b><span class="mono" data-z>z-index: 9999</span></div>
+        </div>
+      </div>
+      <div class="modal" id="modalOut"><b>🪟 النافذة</b><span class="mono" data-z>z-index: 9999</span></div>
+    </div>
+    <div class="result" aria-live="polite">
+      <span class="pill" id="pillCtx"></span>
+      <span class="pill" id="pillTop"></span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>شو عليه الكارد؟</h2>
+    <div class="controls" id="controls">
+      <label class="opt"><input type="checkbox" data-css="transform: translateZ(0)" checked> <code>transform</code></label>
+      <label class="opt"><input type="checkbox" data-css="opacity: 0.99"> <code>opacity: 0.99</code></label>
+      <label class="opt"><input type="checkbox" data-css="filter: blur(0)"> <code>filter</code></label>
+      <label class="opt"><input type="checkbox" data-css="will-change: transform"> <code>will-change</code></label>
+      <label class="opt"><input type="checkbox" data-css="isolation: isolate"> <code>isolation: isolate</code></label>
+      <label class="opt"><input type="checkbox" data-css="position: relative"> <code>position: relative</code> لحاله</label>
+      <label class="opt"><input type="checkbox" data-css="position: relative; z-index: 1"> <code>relative</code> + <code>z-index: 1</code></label>
+    </div>
+    <div class="range">
+      <span>z-index تبع النافذة:</span>
+      <input type="range" id="z" min="1" max="99999" value="9999">
+      <code id="zv">9999</code>
+    </div>
+    <label class="opt" style="margin-top:12px"><input type="checkbox" id="out"> الحل: طلّع النافذة برّا الكارد (متل Portal أو آخر الـ body)</label>
+    <div class="applied" id="applied"></div>
+  </section>
+
+  <section class="panel why">
+    <h2>ليش؟</h2>
+    <p><b>z-index بيتقارن بس جوّا نفس العلبة</b> (اسمها stacking context). بعض الخصائص بتخلّي العنصر يعمل علبة جديدة، وكل شي جوّاه بيترتّب جوّاها بس. وبعدين العلبة كلها بتتحط بالصفحة كقطعة وحدة.</p>
+    <p>هون الكارد صار علبة، فالنافذة صارت محبوسة جوّاه. برّا، الصفحة بتقارن الكارد (<code>auto</code> يعني متل 0) مع الهيدر (10)، فالهيدر بيربح. جرّب كبّر رقم النافذة لـ 99999، ما رح يفرق.</p>
+    <p><b>شو بيعمل علبة جديدة؟</b></p>
+    <ul>
+      <li><code>transform</code> و<code>filter</code> و<code>opacity</code> أقل من 1</li>
+      <li><code>will-change</code> لخاصية من هدول، و<code>isolation: isolate</code></li>
+      <li><code>position</code> غير static <b>مع</b> <code>z-index</code> غير auto، و<code>fixed</code>/<code>sticky</code> دايماً</li>
+      <li>عنصر جوّا flex أو grid وعليه <code>z-index</code></li>
+    </ul>
+    <p><b>الحل:</b> طلّع النافذة برّا العلبة، أو استعمل <code>&lt;dialog&gt;</code> مع <code>showModal()</code>: بيفتح بطبقة الـ top layer فوق كل العلب، بدون أي z-index.</p>
+    <p><b>القاعدة:</b> إذا رقم كبير ما اشتغل، لا تكبّر الرقم… دوّر على الأب اللي عامل علبة.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  const stage = document.getElementById('stage');
+  const card = document.getElementById('card');
+  const z = document.getElementById('z');
+  const out = document.getElementById('out');
+  const boxes = [...document.querySelectorAll('#controls input')];
+
+  function update() {
+    const css = boxes.filter((b) => b.checked).map((b) => b.dataset.css).join('; ');
+    card.style.cssText = css;
+    stage.classList.toggle('out', out.checked);
+    document.querySelectorAll('.modal').forEach((m) => { m.style.zIndex = z.value; });
+    document.querySelectorAll('[data-z]').forEach((s) => { s.textContent = 'z-index: ' + z.value; });
+    document.getElementById('zv').textContent = z.value;
+
+    // Does the card create a stacking context? Read the computed style the browser actually uses.
+    const cs = getComputedStyle(card);
+    const ctx = cs.transform !== 'none' || parseFloat(cs.opacity) < 1 || cs.filter !== 'none' ||
+      /transform|opacity|filter/.test(cs.willChange) || cs.isolation === 'isolate' ||
+      (cs.position !== 'static' && cs.zIndex !== 'auto');
+    card.classList.toggle('ctx', ctx);
+    const pc = document.getElementById('pillCtx');
+    pc.className = 'pill ' + (ctx ? 'no' : 'ok');
+    pc.textContent = ctx ? '📦 الكارد عامل علبة جديدة' : '📦 الكارد ما عامل علبة';
+
+    // Ask the browser what is really on top where the modal overlaps the header.
+    const m = out.checked ? document.getElementById('modalOut') : document.getElementById('modalIn');
+    const h = stage.querySelector('.header').getBoundingClientRect();
+    const r = m.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = (Math.max(r.top, h.top) + h.bottom) / 2;
+    const hit = document.elementFromPoint(x, y);
+    const onTop = !!hit && m.contains(hit);
+    const pt = document.getElementById('pillTop');
+    pt.className = 'pill ' + (onTop ? 'ok' : 'no');
+    pt.textContent = onTop ? '✓ النافذة فوق الهيدر' : '✗ النافذة تحت الهيدر';
+
+    document.getElementById('applied').textContent =
+      `.card  { ${css || '/* ولا شي */'} }\n.modal { z-index: ${z.value}; }  /* ${out.checked ? 'برّا الكارد' : 'جوّا الكارد'} */`;
+  }
+  [...boxes, z, out].forEach((el) => el.addEventListener('input', update));
+  window.addEventListener('resize', update);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+</script>
+</body>
+</html>
