@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معرض صور: الضعيف والصح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 32px 16px 80px; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 auto 24px; text-align: center; max-width: 540px; line-height: 1.7; }
+  section { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-bottom: 22px; }
+  .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tag { font-weight: 900; }
+  .tag.bad { color: var(--bad); } .tag.good { color: var(--good); }
+  .count { font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 99px; background: #2a2018; color: var(--muted); }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .gallery img { display: block; width: 100%; border-radius: 12px; }
+  .note { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 12px 0 0; }
+  .spacer { height: 260vh; display: grid; place-items: center; color: var(--muted); font-size: 14px; border: 2px dashed var(--line); border-radius: 16px; margin: 14px 0; }
+
+  /* 2) What the detailed prompt gave: space is reserved, so nothing jumps */
+  .good .gallery img { height: auto; aspect-ratio: 4 / 3; background: #2a2018; }
+
+  footer { text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>موقعك حلو… <em>بس بيفتح بـ 8 ثواني</em></h1>
+  <p class="sub">نفس المعرض ببرومبتين. راقب العدّاد فوق كل معرض: قديش صورة نزلت قبل ما توصللها. وانزل لتحت لتشوف الصور الصح وهي عم تنزل وقت ما توصللها.</p>
+
+  <section class="weak" id="weak">
+    <div class="head"><span class="tag bad">البرومبت الضعيف</span><span class="count" data-count>نزل 0 من 8</span></div>
+    <!-- Weak prompt: no size, no lazy loading, one big file for every screen -->
+    <div class="gallery">
+      <img src="img/mashawi-800.webp" alt="مشاوي">
+      <img src="img/fattoush-800.webp" alt="فتوش">
+      <img src="img/pasta-800.webp" alt="باستا">
+      <img src="img/cake-800.webp" alt="كيكة">
+      <img src="img/shawarma-800.webp" alt="شاورما">
+      <img src="img/soup-800.webp" alt="شوربة">
+      <img src="img/falafel-800.webp" alt="فلافل">
+      <img src="img/muhallabia-800.webp" alt="مهلبية">
+    </div>
+    <p class="note">كل الصور بتنزل من أول لحظة، حتى اللي ما رح تشوفها. وما في مكان محجوز إلها، فالصفحة بتنط وهي عم تحمّل (بيبيّن أكتر على نت ضعيف).</p>
+  </section>
+
+  <div class="spacer">↓ انزل لتحت ↓</div>
+
+  <section class="good" id="good">
+    <div class="head"><span class="tag good">البرومبت الصح</span><span class="count" data-count>نزل 0 من 8</span></div>
+    <div class="gallery">
+      <img src="img/mashawi-800.webp" srcset="img/mashawi-400.webp 400w, img/mashawi-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" alt="مشاوي">
+      <img src="img/fattoush-800.webp" srcset="img/fattoush-400.webp 400w, img/fattoush-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" alt="فتوش">
+      <img src="img/pasta-800.webp" srcset="img/pasta-400.webp 400w, img/pasta-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="باستا">
+      <img src="img/cake-800.webp" srcset="img/cake-400.webp 400w, img/cake-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="كيكة">
+      <img src="img/shawarma-800.webp" srcset="img/shawarma-400.webp 400w, img/shawarma-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="شاورما">
+      <img src="img/soup-800.webp" srcset="img/soup-400.webp 400w, img/soup-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="شوربة">
+      <img src="img/falafel-800.webp" srcset="img/falafel-400.webp 400w, img/falafel-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="فلافل">
+      <img src="img/muhallabia-800.webp" srcset="img/muhallabia-400.webp 400w, img/muhallabia-800.webp 800w" sizes="(max-width: 600px) 50vw, 230px" width="400" height="300" loading="lazy" alt="مهلبية">
+    </div>
+    <p class="note">loading="lazy" بتأجّل الصور لحد ما توصللها، وsrcset بتعطي كل شاشة الحجم اللي بيناسبها، وwidth وheight بيحجزوا المكان فما في نط.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+</main>
+
+<script>
+  // Live counter: how many images in each gallery have actually loaded.
+  document.querySelectorAll('section').forEach((sec) => {
+    const imgs = [...sec.querySelectorAll('img')];
+    const out = sec.querySelector('[data-count]');
+    const update = () => { out.textContent = `نزل ${imgs.filter((i) => i.complete && i.naturalWidth).length} من ${imgs.length}`; };
+    imgs.forEach((img) => img.addEventListener('load', update));
+    update();
+  });
+</script>
+</body>
+</html>

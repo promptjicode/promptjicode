@@ -61,6 +61,13 @@
 <td align="center"><a href="06-rtl-store/prompt.md">prompt.md</a></td>
 <td align="center"><a href="06-rtl-store/index.html">index.html</a></td>
 </tr>
+<tr>
+<td align="center">07</td>
+<td align="center">موقعك حلو… بس بيفتح بـ 8 ثواني (معرض صور)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/07-image-speed/">▶ جرّب المعرضين</a></td>
+<td align="center"><a href="07-image-speed/prompt.md">prompt.md</a></td>
+<td align="center"><a href="07-image-speed/index.html">index.html</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">أسئلة المقابلات</h2>
