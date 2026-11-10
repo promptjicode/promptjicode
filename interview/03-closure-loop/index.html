@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #03 · Closure جوّا لوب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; --blue: #9bb8ff; --violet: #d2a8ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 18px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tabs button, .btns button { font: inherit; font-weight: 900; border-radius: 12px; padding: 8px 16px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); }
+  .tabs button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .btns button.main { background: var(--accent); color: #1a0f09; border-color: var(--accent); }
+  .btns button:disabled { opacity: .45; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .code { background: #0d1117; border: 2px solid #2a313c; border-radius: 16px; padding: 10px 0; direction: ltr; }
+  .code div { font-family: "JetBrains Mono", monospace; font-size: 15px; line-height: 30px; padding: 0 16px; white-space: pre; color: #c9d1d9; overflow-x: auto; }
+  .code div.hot { background: rgba(226,161,92,.14); box-shadow: inset 4px 0 0 var(--accent); }
+  .code .kw { color: #ff7b72; font-weight: 700; }
+  .area { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .pane { min-height: 170px; border-radius: 16px; border: 2px solid; padding: 10px; }
+  .pane h3 { margin: 0 0 8px; font-size: 15px; }
+  .mem { border-color: #8a6a3c; } .mem h3 { color: var(--accent); }
+  .que { border-color: #5b6b8a; } .que h3 { color: var(--blue); }
+  .cells { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cell { min-width: 64px; border-radius: 12px; border: 2px solid #8a6a3c; background: rgba(226,161,92,.08); padding: 6px 10px; text-align: center; animation: pop .25s ease-out; }
+  .cell small { display: block; font-size: 11px; color: var(--muted); }
+  .cell b { font-family: "JetBrains Mono", monospace; font-size: 22px; direction: ltr; }
+  .cell.read { border-color: var(--good); box-shadow: 0 0 0 3px rgba(125,220,154,.25); }
+  .fn { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 5px 10px; border-radius: 8px; background: #0d1117; border: 1px solid #2a313c; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 8px; direction: ltr; animation: pop .25s ease-out; }
+  .fn span { font-family: Cairo, sans-serif; color: var(--muted); direction: rtl; }
+  .fn code { white-space: nowrap; }
+  .fn.done { opacity: .35; }
+  @media (max-width: 560px) { .area { grid-template-columns: 1fr; } .pane { min-height: 0; } }
+  .fn.now { border-color: var(--good); }
+  @keyframes pop { from { transform: scale(.7); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cell, .fn { animation: none; } }
+  .console { margin-top: 12px; background: #0d1117; border: 2px solid #2a313c; border-radius: 14px; padding: 10px 16px; direction: ltr; display: flex; gap: 14px; align-items: center; }
+  .console span { color: #8b949e; font-family: "JetBrains Mono", monospace; font-size: 13px; }
+  .console b { font-family: "JetBrains Mono", monospace; font-size: 26px; color: var(--good); letter-spacing: 10px; }
+  .explain { margin-top: 12px; min-height: 56px; line-height: 1.8; font-weight: 700; }
+  .explain b { color: var(--accent); }
+  .real { margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .real code { color: var(--good); }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #03 · 🟡 Mid</span>
+  <h1>شو بيطبع هالكود؟ امشي معه خطوة خطوة</h1>
+  <p class="sub">اضغط «الخطوة الجاية» وراقب العلب: كم علبة <code>i</code> بتنعمل، وكل دالة بالطابور أي علبة ماسكة. بدّل بين <code>var</code> و<code>let</code>، وبالآخر شغّل الكود الحقيقي بمتصفحك.</p>
+
+  <div class="tabs" role="group" aria-label="اختار الكود">
+    <button type="button" data-s="var" aria-pressed="true">السؤال: <code>var</code></button>
+    <button type="button" data-s="let" aria-pressed="false">وهلّق إذا…؟ <code>let</code></button>
+  </div>
+
+  <div class="code" id="code"></div>
+  <div class="btns">
+    <button type="button" class="main" id="next">الخطوة الجاية ←</button>
+    <button type="button" id="reset">من الأول</button>
+    <button type="button" id="run">▶ شغّل الكود الحقيقي</button>
+  </div>
+
+  <div class="area">
+    <div class="pane mem"><h3>📦 علب الـ <code>i</code></h3><div class="cells" id="mem"></div></div>
+    <div class="pane que"><h3>⏳ طابور <code>setTimeout</code></h3><div id="que"></div></div>
+  </div>
+  <div class="console"><span>console ›</span><b id="out"></b></div>
+  <p class="explain" id="explain" aria-live="polite"></p>
+  <p class="real" id="real"></p>
+
+  <section class="panel">
+    <p><b>القاعدة:</b> الـ closure بيمسك <b>المتغير نفسه</b>، مش نسخة من قيمته لحظة ما انعملت الدالة.</p>
+    <p><code>var</code> بيعمل علبة وحدة للفانكشن كلها، فالدوال التلاتة بيقروا نفس العلبة بعد ما يخلص اللوب، وبيلاقوا فيها 3. <code>let</code> بيعمل علبة جديدة بكل لفّة، فكل دالة بتقرأ علبتها: 0 و1 و2.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  // A step: { line, cells (values of the i boxes), add (queue a function bound to box n), run (index of the function that runs), text }
+  const S = {
+    var: {
+      kw: 'var',
+      run(log) { for (var i = 0; i < 3; i++) { setTimeout(() => log(i), 0); } },
+      steps: [
+        { line: 0, cells: [0], text: '<code>var</code> بيعمل <b>علبة وحدة</b> اسمها <code>i</code>، وفيها 0' },
+        { line: 1, cells: [0], add: 0, text: 'لفّة 1: <code>setTimeout</code> بيحط دالة بالطابور… <b>وما بيشغّلها هلّق</b>' },
+        { line: 1, cells: [1], add: 0, text: 'لفّة 2: نفس العلبة صار فيها 1، ودالة تانية بالطابور' },
+        { line: 1, cells: [2], add: 0, text: 'لفّة 3: نفس العلبة صار فيها 2، ودالة تالتة' },
+        { line: 0, cells: [3], text: '<code>i++</code> ← 3، والشرط <code>i &lt; 3</code> غلط، <b>فاللوب خلص</b>' },
+        { run: 0, print: 3, text: 'هلّق بس بتشتغل الدوال. الأولى بتقرأ العلبة ← <b>3</b>' },
+        { run: 1, print: 3, text: 'التانية ماسكة <b>نفس العلبة</b> ← 3' },
+        { run: 2, print: 3, text: 'والتالتة كمان ← 3. كلهن ماسكين المتغير نفسه، مش قيمته وقت ما انعملوا' },
+      ],
+    },
+    let: {
+      kw: 'let',
+      run(log) { for (let i = 0; i < 3; i++) { setTimeout(() => log(i), 0); } },
+      steps: [
+        { line: 0, cells: [0], text: '<code>let</code> بيعمل <b>علبة جديدة بكل لفّة</b>. هي علبة اللفّة 1، وفيها 0' },
+        { line: 1, cells: [0], add: 0, text: 'لفّة 1: الدالة الأولى ماسكة <b>علبة 1</b>' },
+        { line: 1, cells: [0, 1], add: 1, text: 'لفّة 2: علبة جديدة فيها 1، والدالة التانية ماسكتها' },
+        { line: 1, cells: [0, 1, 2], add: 2, text: 'لفّة 3: علبة تالتة فيها 2، والدالة التالتة ماسكتها' },
+        { line: 0, cells: [0, 1, 2], text: 'اللوب خلص… بس <b>كل دالة ماسكة علبتها</b>' },
+        { run: 0, print: 0, text: 'الأولى بتقرأ علبة 1 ← <b>0</b>' },
+        { run: 1, print: 1, text: 'التانية بتقرأ علبة 2 ← <b>1</b>' },
+        { run: 2, print: 2, text: 'والتالتة علبة 3 ← <b>2</b>' },
+      ],
+    },
+  };
+
+  let cur = 'var', i = 0, cells, fns, printed, reading;
+  const $ = (id) => document.getElementById(id);
+
+  function showCode(line) {
+    const kw = `<span class="kw">${S[cur].kw}</span>`;
+    const L = [`for (${kw} i = 0; i &lt; 3; i++) {`, '  setTimeout(() =&gt; console.log(i), 0);', '}'];
+    $('code').innerHTML = L.map((l, k) => `<div class="${k === line ? 'hot' : ''}">${l}</div>`).join('');
+  }
+  function draw(line) {
+    showCode(line);
+    $('mem').innerHTML = cells.map((v, k) => `<div class="cell${reading === k ? ' read' : ''}"><small>${cur === 'let' ? 'علبة ' + (k + 1) : 'i'}</small><b>${v}</b></div>`).join('');
+    $('que').innerHTML = fns.map((f, k) => `<div class="fn${f.done ? ' done' : ''}${f.now ? ' now' : ''}"><code>() =&gt; log(i)</code><span>${cur === 'let' ? '← علبة ' + (f.box + 1) : '← العلبة الوحيدة'}</span></div>`).join('');
+    $('out').textContent = printed.join(' ');
+  }
+  function reset() {
+    i = 0; cells = []; fns = []; printed = []; reading = null;
+    draw(null); $('explain').innerHTML = 'اضغط «الخطوة الجاية» لنبلّش.'; $('real').textContent = '';
+    $('next').disabled = false;
+  }
+  function next() {
+    const st = S[cur].steps[i]; if (!st) return;
+    reading = null; fns.forEach((f) => { if (f.now) { f.now = false; f.done = true; } });
+    if (st.cells) cells = st.cells.slice();
+    if (st.add !== undefined) fns.push({ box: st.add });
+    if (st.run !== undefined) { const f = fns[st.run]; f.now = true; reading = cur === 'let' ? f.box : 0; printed.push(st.print); }
+    draw(st.line ?? null);
+    $('explain').innerHTML = st.text;
+    i++;
+    if (i >= S[cur].steps.length) { $('next').disabled = true; $('explain').innerHTML += ' ✓'; }
+  }
+  function runReal() {
+    const got = [];
+    console.log('%c▶ PromptjiCode · ' + (cur === 'var' ? 'السؤال (var)' : 'وهلّق إذا…؟ (let)'), 'color:#e2a15c;font-weight:bold');
+    S[cur].run((x) => { got.push(x); console.log(x); });
+    $('real').textContent = 'عم يشتغل…';
+    setTimeout(() => { $('real').innerHTML = `متصفحك طبع فعلاً: <code>${got.join(' ')}</code> (وطبعها كمان بالـ Console: افتحه بـ F12)`; }, 20);
+  }
+
+  document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => {
+    cur = b.dataset.s;
+    document.querySelectorAll('.tabs button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    reset();
+  }));
+  $('next').addEventListener('click', next);
+  $('reset').addEventListener('click', reset);
+  $('run').addEventListener('click', runReal);
+  reset();
+</script>
+</body>
+</html>

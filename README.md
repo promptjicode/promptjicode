@@ -100,6 +100,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/02-stacking-context/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/02-stacking-context/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">03</td>
+<td align="center">شو بيطبع هاللوب؟</td>
+<td align="center">🟡 Mid</td>
+<td align="center">Closure</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/03-closure-loop/">▶ امشي معه خطوة خطوة</a></td>
+<td align="center"><a href="interview/03-closure-loop/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>
