@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نافذة الاشتراك: الضعيف والصح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 32px 16px 80px; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 auto 24px; text-align: center; max-width: 560px; line-height: 1.7; }
+  section { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-bottom: 22px; }
+  .tag { font-weight: 900; display: block; margin-bottom: 10px; }
+  .tag.bad { color: var(--bad); } .tag.good { color: var(--good); }
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .nav a { color: var(--ink); text-decoration: none; background: #2a2018; padding: 6px 14px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+  .open { font: inherit; font-weight: 900; font-size: 17px; width: 100%; padding: 14px; border-radius: 14px; border: 0; background: var(--accent); color: #1a0f09; cursor: pointer; }
+  .try { color: var(--muted); font-size: 14px; line-height: 1.8; margin: 12px 0 0; padding-inline-start: 20px; }
+  :focus-visible { outline: 3px solid #3b82f6; outline-offset: 3px; }
+
+  /* the newsletter box itself looks the same in both */
+  .box { background: #fff; color: #1f1611; border-radius: 22px; padding: 56px 24px 24px; width: min(92vw, 380px); text-align: center; position: relative; }
+  .box h2 { margin: 6px 0 2px; font-size: 24px; }
+  .box p { margin: 0 0 14px; color: #7a6654; font-weight: 700; font-size: 14px; }
+  .box input { width: 100%; font: inherit; padding: 12px 14px; border: 2px solid #ddd2c4; border-radius: 12px; }
+  .box button[type=submit] { width: 100%; margin-top: 10px; font: inherit; font-weight: 900; padding: 12px; border: 0; border-radius: 12px; background: var(--accent); color: #1a0f09; cursor: pointer; }
+
+  /* 1) What the weak prompt gave: a div on top of the page */
+  .weak-overlay { position: fixed; inset: 0; background: rgba(25,14,8,.6); display: none; place-items: center; z-index: 10; }
+  .weak-overlay.show { display: grid; }
+  .weak-x { position: absolute; top: 12px; left: 14px; font-size: 13px; color: #c8bcb0; cursor: pointer; }
+
+  /* 2) What the detailed prompt gave: a real <dialog> */
+  dialog { border: 0; padding: 0; background: transparent; }
+  dialog::backdrop { background: rgba(25,14,8,.6); }
+  .close { position: absolute; top: 10px; left: 10px; min-width: 48px; min-height: 48px; border-radius: 50%; border: 0; background: #f3ebe1; font-size: 22px; font-weight: 900; cursor: pointer; }
+  body:has(dialog[open]) { overflow: hidden; }   /* the page behind doesn't scroll */
+
+  .filler { height: 60vh; border: 2px dashed var(--line); border-radius: 16px; display: grid; place-items: center; color: var(--muted); font-size: 14px; margin: 14px 0; }
+  footer { text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>هالنافذة… <em>حاول تسكّرها</em></h1>
+  <p class="sub">نفس نافذة الاشتراك ببرومبتين. افتح كل وحدة وجرّب تسكّرها: بـ Escape، وبالضغط برّاها، وبزر الإغلاق. ومن الكمبيوتر جرّب كمان الـ Tab.</p>
+
+  <section>
+    <span class="tag bad">البرومبت الضعيف</span>
+    <nav class="nav"><a href="#">القائمة</a><a href="#">اطلب أونلاين</a><a href="#">فروعنا</a></nav>
+    <button class="open" id="weakOpen">📩 اشترك بالنشرة</button>
+    <ul class="try">
+      <li>Escape ما بيعمل شي، والضغط برّاها كمان.</li>
+      <li>زر الإغلاق ✕ صغير، وما بيوصله الكيبورد.</li>
+      <li>الـ Tab بيطلع لورا النافذة، لعند «القائمة» و«اطلب أونلاين».</li>
+      <li>والصفحة اللي وراها بتتحرك وإنت عم تسحب.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="tag good">البرومبت الصح</span>
+    <nav class="nav"><a href="#">القائمة</a><a href="#">اطلب أونلاين</a><a href="#">فروعنا</a></nav>
+    <button class="open" id="goodOpen">📩 اشترك بالنشرة</button>
+    <ul class="try">
+      <li>Escape بيسكّرها، والضغط برّاها بيسكّرها، وزر الإغلاق 48px.</li>
+      <li>الـ Tab بيلف جوّاها، وما بيطلع لورا.</li>
+      <li>لما تتسكّر، التركيز بيرجع لزر «اشترك بالنشرة».</li>
+      <li>والصفحة اللي وراها ما بتتحرك.</li>
+    </ul>
+  </section>
+
+  <div class="filler">صفحة طويلة… لتجرّب إذا الخلفية بتتحرك</div>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode">الكود</a></footer>
+</main>
+
+<!-- 1) Weak prompt: a div overlay. No Escape, no outside click, tiny close icon, focus is not kept inside -->
+<div class="weak-overlay" id="weak">
+  <div class="box">
+    <span class="weak-x" id="weakX">✕</span>
+    <div style="font-size:44px">✉️</div>
+    <h2>اشترك بنشرتنا</h2>
+    <p>وخذ خصم 10% على أول طلب</p>
+    <form onsubmit="event.preventDefault()"><input type="email" placeholder="بريدك الإلكتروني"><button type="submit">اشترك</button></form>
+  </div>
+</div>
+
+<!-- 2) Detailed prompt: <dialog> + showModal() gives Escape, the top layer, a focus trap and the screen-reader role -->
+<dialog id="news" aria-labelledby="newsTitle">
+  <div class="box">
+    <button class="close" aria-label="إغلاق" id="goodClose">✕</button>
+    <div style="font-size:44px" aria-hidden="true">✉️</div>
+    <h2 id="newsTitle">اشترك بنشرتنا</h2>
+    <p>وخذ خصم 10% على أول طلب</p>
+    <form method="dialog"><input type="email" placeholder="بريدك الإلكتروني" aria-label="بريدك الإلكتروني"><button type="submit">اشترك</button></form>
+  </div>
+</dialog>
+
+<script>
+  // Weak: open and close only with the tiny icon
+  const weak = document.getElementById('weak');
+  document.getElementById('weakOpen').onclick = () => weak.classList.add('show');
+  document.getElementById('weakX').onclick = () => weak.classList.remove('show');
+
+  // Good
+  const news = document.getElementById('news');
+  const opener = document.getElementById('goodOpen');
+  opener.onclick = () => news.showModal();
+  document.getElementById('goodClose').onclick = () => news.close();
+  // A click on the backdrop lands on the <dialog> itself, not on the box inside it
+  news.addEventListener('click', (e) => { if (e.target === news) news.close(); });
+  // Give focus back to the button that opened it
+  news.addEventListener('close', () => opener.focus());
+</script>
+</body>
+</html>

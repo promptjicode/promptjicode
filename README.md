@@ -68,6 +68,13 @@
 <td align="center"><a href="07-image-speed/prompt.md">prompt.md</a></td>
 <td align="center"><a href="07-image-speed/index.html">index.html</a></td>
 </tr>
+<tr>
+<td align="center">08</td>
+<td align="center">هالنافذة… حاول تسكّرها (نافذة اشتراك)</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/08-accessible-modal/">▶ جرّب النافذتين</a></td>
+<td align="center"><a href="08-accessible-modal/prompt.md">prompt.md</a></td>
+<td align="center"><a href="08-accessible-modal/index.html">index.html</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">أسئلة المقابلات</h2>
