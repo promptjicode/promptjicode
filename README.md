@@ -115,6 +115,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/03-closure-loop/">▶ امشي معه خطوة خطوة</a></td>
 <td align="center"><a href="interview/03-closure-loop/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">04</td>
+<td align="center">السيرفر رجّع 404… ووين الخطأ؟</td>
+<td align="center">🟡 Mid</td>
+<td align="center">fetch</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/04-fetch-404/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/04-fetch-404/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>

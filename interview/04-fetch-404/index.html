@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #04 · fetch و404</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; --blue: #9bb8ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 18px; }
+  .code { background: #0d1117; border: 2px solid #2a313c; border-radius: 16px; padding: 10px 0; direction: ltr; overflow-x: auto; }
+  .code div { font-family: "JetBrains Mono", monospace; font-size: 14px; line-height: 28px; padding: 0 16px; white-space: pre; color: #c9d1d9; }
+  .code div.hot { background: rgba(125,220,154,.12); box-shadow: inset 4px 0 0 var(--good); }
+  .code div.hotbad { background: rgba(255,107,107,.12); box-shadow: inset 4px 0 0 var(--bad); }
+  .code .cm { color: #6e7681; } .code .kw { color: #ff7b72; } .code .st { color: #a5d6ff; }
+  .cases { display: grid; gap: 10px; margin: 16px 0; }
+  .case { display: flex; align-items: center; gap: 12px; background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+  .case button { font: inherit; font-weight: 900; border-radius: 12px; padding: 8px 14px; cursor: pointer; border: 0; background: var(--accent); color: #1a0f09; flex: none; min-width: 92px; }
+  .case.fix button { background: var(--good); }
+  .case .what { flex: 1; line-height: 1.6; font-size: 15px; }
+  .case .what small { display: block; color: var(--muted); font-size: 13px; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .result { background: #0d1117; border: 2px solid #2a313c; border-radius: 16px; padding: 14px 16px; min-height: 120px; }
+  .result .road { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 900; margin-bottom: 10px; }
+  .result .road span { padding: 4px 12px; border-radius: 10px; background: #1b1712; font-size: 14px; }
+  .result .road i { flex: 1; height: 3px; background: #3a2a20; border-radius: 2px; font-style: normal; }
+  .result .road i.ok { background: var(--good); } .result .road i.cut { background: repeating-linear-gradient(90deg, var(--bad) 0 8px, transparent 8px 14px); }
+  .result .out { font-family: "JetBrains Mono", monospace; direction: ltr; font-size: 22px; color: var(--good); }
+  .result .out.err { color: var(--bad); }
+  .result p { margin: 8px 0 0; line-height: 1.8; font-weight: 700; }
+  .result b { color: var(--accent); }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #04 · 🟡 Mid</span>
+  <h1>السيرفر رجّع 404… ليش ما اشتغل الـ catch؟</h1>
+  <p class="sub">هون في <b>طلبات حقيقية</b> من متصفحك، مش محاكاة. جرّب الحالات التلاتة وشوف وين بيروح الكود: على <code>try</code> ولا على <code>catch</code>.</p>
+
+  <div class="code" id="code"></div>
+
+  <div class="cases">
+    <div class="case"><button type="button" data-c="ok">جرّب</button><div class="what">ملف <b>موجود</b> على السيرفر<small>السيرفر بيرجّع <code>200 OK</code></small></div></div>
+    <div class="case"><button type="button" data-c="missing">جرّب</button><div class="what">ملف <b>مش موجود</b> على السيرفر<small>السيرفر بيرجّع <code>404 Not Found</code></small></div></div>
+    <div class="case"><button type="button" data-c="offline">جرّب</button><div class="what">دومين <b>مش موجود</b> (متل النت المقطوع)<small>الطلب ما بيوصل لأي سيرفر</small></div></div>
+    <div class="case fix"><button type="button" data-c="fix">الحل</button><div class="what">نفس الـ 404، بس مع فحص <code>res.ok</code><small>هلّق الخطأ بيوصل للـ <code>catch</code></small></div></div>
+  </div>
+
+  <div class="result" id="result" aria-live="polite"><p>اختار حالة من فوق.</p></div>
+
+  <section class="panel">
+    <p><b>القاعدة:</b> <code>fetch</code> بيفشل (reject) بس إذا الطلب <b>ما وصل</b> لأي سيرفر: نت مقطوع، أو دومين غلط، أو CORS. أي ردّ من السيرفر، حتى <code>404</code> و<code>500</code>، بيعتبره نجاح.</p>
+    <p>لهيك افحص <code>res.ok</code> (بيكون <code>true</code> بس للـ 200 لـ 299)، وإذا كان <code>false</code> اعمل <code>throw</code> لحالك.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const URLS = {
+    ok: location.href.split('#')[0],                  // this very page
+    missing: 'users-999-not-here.json',               // nothing by this name on the server
+    offline: 'https://promptjicode-no-such-site.invalid/api', // .invalid never resolves
+  };
+  URLS.fix = URLS.missing;
+
+  const CODE = {
+    plain: [
+      ['cm', '// {URL}'],
+      ['', 'try {'],
+      ['', "  const res = await fetch('{URL}');"],
+      ['', "  console.log('ok', res.status);"],
+      ['', '} catch (e) {'],
+      ['', "  console.log('error');"],
+      ['', '}'],
+    ],
+    fix: [
+      ['cm', '// {URL}'],
+      ['', 'try {'],
+      ['', "  const res = await fetch('{URL}');"],
+      ['', '  if (!res.ok) throw new Error(res.status);'],
+      ['', "  console.log('ok', res.status);"],
+      ['', '} catch (e) {'],
+      ['', "  console.log('error', e.message);"],
+      ['', '}'],
+    ],
+  };
+  const short = (u) => u.length > 34 ? '…' + u.slice(-30) : u;
+  function showCode(kind, url, hot, bad) {
+    $('code').innerHTML = CODE[kind].map(([c, l], k) => {
+      let h = l.replace('{URL}', short(url)).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+      h = c === 'cm' ? `<span class="cm">${h}</span>` : h.replace(/('[^']*')/g, '<span class="st">$1</span>').replace(/\b(try|catch|const|await|if|throw|new)\b/g, '<span class="kw">$1</span>');
+      return `<div class="${k === hot ? (bad ? 'hotbad' : 'hot') : ''}">${h}</div>`;
+    }).join('');
+  }
+
+  async function run(c) {
+    const url = URLS[c], kind = c === 'fix' ? 'fix' : 'plain';
+    showCode(kind, url, null);
+    $('result').innerHTML = '<p>عم يبعت الطلب…</p>';
+    console.log('%c▶ PromptjiCode · ' + c, 'color:#e2a15c;font-weight:bold');
+    let line, out, err = false, reached = false, status;
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      reached = true; status = res.status;
+      if (kind === 'fix' && !res.ok) throw new Error(res.status);
+      out = `ok ${res.status}`; line = kind === 'fix' ? 4 : 3;
+    } catch (e) {
+      err = true; out = kind === 'fix' && reached ? `error ${e.message}` : 'error'; line = kind === 'fix' ? 6 : 5;
+    }
+    console.log(out);
+    showCode(kind, url, line, err);
+    const road = reached
+      ? `<div class="road"><span>🌐 المتصفح</span><i class="ok"></i><span>🖥 السيرفر: ${status}</span></div>`
+      : `<div class="road"><span>🌐 المتصفح</span><i class="cut"></i><span>✗ ما في سيرفر</span></div>`;
+    const why = {
+      ok: 'السيرفر ردّ بـ 200، والطلب نجح ← <b>try</b>.',
+      missing: 'السيرفر ردّ بـ <b>404</b>… بس <b>وصل ردّ</b>، فـ <code>fetch</code> اعتبرها نجاح ← <b>try</b>. والـ <code>catch</code> ما اشتغل.',
+      offline: 'الطلب <b>ما وصل</b> لأي سيرفر، فـ <code>fetch</code> فشل فعلاً ← <b>catch</b>.',
+      fix: 'وصل الـ 404، بس <code>res.ok</code> طلع <code>false</code>، فعملنا <code>throw</code> ← <b>catch</b>. هيك لازم يكون.',
+    }[c];
+    $('result').innerHTML = `${road}<div class="out${err ? ' err' : ''}">${out}</div><p>${why}</p><p style="font-size:13px;color:var(--muted)">(وانطبعت كمان بالـ Console: افتحه بـ F12)</p>`;
+  }
+
+  document.querySelectorAll('.case button').forEach((b) => b.addEventListener('click', () => run(b.dataset.c)));
+  showCode('plain', URLS.missing, null);
+</script>
+</body>
+</html>
