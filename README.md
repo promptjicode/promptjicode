@@ -123,6 +123,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/04-fetch-404/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/04-fetch-404/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">05</td>
+<td align="center">سكّر الصوت… ورجع لحاله؟</td>
+<td align="center">🟢 Junior</td>
+<td align="center"><code dir="ltr">||</code> و<code dir="ltr">??</code></td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/05-nullish/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/05-nullish/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>
