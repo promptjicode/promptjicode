@@ -75,6 +75,13 @@
 <td align="center"><a href="08-accessible-modal/prompt.md">prompt.md</a></td>
 <td align="center"><a href="08-accessible-modal/index.html">index.html</a></td>
 </tr>
+<tr>
+<td align="center">09</td>
+<td align="center">مربع بحث… بيبعت 6 طلبات لكلمة وحدة</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/09-search-debounce/">▶ جرّب المربعين</a></td>
+<td align="center"><a href="09-search-debounce/prompt.md">prompt.md</a></td>
+<td align="center"><a href="09-search-debounce/index.html">index.html</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">أسئلة المقابلات</h2>

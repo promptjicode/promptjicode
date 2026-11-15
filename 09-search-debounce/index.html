@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مربع بحث: الضعيف والصح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --bad: #ff6b6b; --good: #7ddc9a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 32px 16px 80px; }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 900; margin: 0 0 6px; text-align: center; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .sub { color: var(--muted); margin: 0 auto 24px; text-align: center; max-width: 580px; line-height: 1.7; }
+  code { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  section { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 16px; margin-bottom: 22px; }
+  .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .tag { font-weight: 900; } .tag.bad { color: var(--bad); } .tag.good { color: var(--good); }
+  .count { font-size: 14px; font-weight: 900; padding: 4px 12px; border-radius: 99px; background: #2a2018; color: var(--muted); }
+  input { width: 100%; font: inherit; font-size: 18px; padding: 12px 14px; border-radius: 14px; border: 2px solid var(--accent); background: #fff; color: #1f1611; }
+  input:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .status { min-height: 28px; margin: 10px 2px 6px; font-size: 14px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .status.bad { color: var(--bad); }
+  .spin { width: 16px; height: 16px; border-radius: 50%; border: 3px solid #3a2a20; border-top-color: var(--accent); animation: r .7s linear infinite; }
+  @keyframes r { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; min-height: 40px; }
+  li { background: #fbf6ef; color: #1f1611; border-radius: 10px; padding: 8px 12px; font-weight: 700; }
+  ul.stale li { background: #ffe9e6; color: #a32c2c; }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; color: var(--muted); font-size: 14px; font-weight: 700; }
+  .log { margin-top: 8px; display: grid; gap: 4px; max-height: 220px; overflow: auto; }
+  .log div { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; background: #14100d; border: 1px solid #2a2018; border-radius: 8px; padding: 4px 10px; }
+  .log .q { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .log .late { border-color: var(--bad); }
+  .note { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 12px 0 0; }
+  footer { text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>مربع بحث… <em>بيبعت 6 طلبات لكلمة وحدة</em></h1>
+  <p class="sub">نفس مربع البحث ببرومبتين. اكتب «شاورما» بكل واحد وراقب عدّاد الطلبات وسجلّها. السيرفر هون <b>وهمي وبطيء عن قصد</b>: كل ردّ بيتأخر بين 0.2 و2.5 ثانية بشكل عشوائي، متل نت الموبايل.</p>
+
+  <section id="weak">
+    <div class="head"><span class="tag bad">البرومبت الضعيف</span><span class="count" data-count>طلبات: 0</span></div>
+    <input type="search" placeholder="ابحث بالمنيو… جرّب: شاورما" aria-label="بحث بالمنيو (البرومبت الضعيف)">
+    <div class="status" aria-live="polite"></div>
+    <ul></ul>
+    <details><summary>سجل الطلبات</summary><div class="log"></div></details>
+    <p class="note">كل حرف = طلب. والقائمة بتفضى مع كل حرف، وبتعرض أي ردّ بيوصل آخر شي، حتى لو كان لكلمة قديمة.</p>
+  </section>
+
+  <section id="good">
+    <div class="head"><span class="tag good">البرومبت الصح</span><span class="count" data-count>طلبات: 0</span></div>
+    <input type="search" placeholder="ابحث بالمنيو… جرّب: شاورما" aria-label="بحث بالمنيو (البرومبت الصح)">
+    <div class="status" aria-live="polite"></div>
+    <ul></ul>
+    <details><summary>سجل الطلبات</summary><div class="log"></div></details>
+    <p class="note"><code>debounce</code> بيستنى 500ms بعد آخر حرف، و<code>AbortController</code> بيلغي الطلب القديم إذا رجعت كتبت، وفي «عم يبحث…» و«ما في نتائج».</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">الكود</a></footer>
+</main>
+
+<script>
+  // A fake, slow menu API, so the problem shows up even on fast Wi-Fi.
+  const MENU = ['شاورما دجاج', 'شاورما لحمة', 'صحن شاورما', 'شاي بالنعنع', 'شاي أخضر', 'فلافل', 'سندويشة فلافل', 'شوربة عدس', 'فتوش', 'حمص'];
+  function fakeFetch(q, { signal } = {}) {
+    return new Promise((resolve, reject) => {
+      const ms = 200 + Math.random() * 2300;
+      const id = setTimeout(() => resolve(MENU.filter((m) => m.includes(q))), ms);
+      signal?.addEventListener('abort', () => { clearTimeout(id); reject(new DOMException('aborted', 'AbortError')); });
+    });
+  }
+
+  function ui(sec) {
+    const el = document.getElementById(sec);
+    return {
+      input: el.querySelector('input'), status: el.querySelector('.status'), list: el.querySelector('ul'),
+      count: el.querySelector('[data-count]'), log: el.querySelector('.log'), n: 0,
+      addLog(q) { const row = document.createElement('div'); row.innerHTML = `<span class="q">?q=${q}</span><span>⏳</span>`; this.log.prepend(row); this.count.textContent = `طلبات: ${++this.n}`; return row; },
+      render(items, forQ, now) {
+        const stale = forQ !== now;
+        this.list.className = stale ? 'stale' : '';
+        this.list.innerHTML = items.map((m) => `<li>${m}</li>`).join('');
+        this.status.className = 'status' + (stale ? ' bad' : '');
+        this.status.textContent = stale ? `نتائج لـ «${forQ}» وإنت كاتب «${now}» ✗` : `نتائج لـ «${forQ}»`;
+      },
+    };
+  }
+
+  // 1) What the weak prompt gave: a request on every key, whatever answers last wins
+  const W = ui('weak');
+  W.input.addEventListener('input', async () => {
+    const q = W.input.value.trim();
+    W.list.innerHTML = ''; W.status.textContent = '';
+    if (!q) return;
+    const row = W.addLog(q);
+    const items = await fakeFetch(q);
+    const late = q !== W.input.value.trim();
+    row.lastChild.textContent = late ? '⚠️ رجع متأخر' : '✓'; if (late) row.classList.add('late');
+    W.render(items, q, W.input.value.trim());
+  });
+
+  // 2) What the detailed prompt gave: debounce + AbortController + loading/empty states
+  const G = ui('good');
+  let timer, controller;
+  G.input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(search, 500);
+  });
+  async function search() {
+    const q = G.input.value.trim();
+    controller?.abort();
+    if (!q) { G.list.innerHTML = ''; G.status.textContent = ''; return; }
+    controller = new AbortController();
+    const row = G.addLog(q);
+    G.status.className = 'status'; G.status.innerHTML = '<span class="spin"></span>عم يبحث…'; G.list.innerHTML = '';
+    try {
+      const items = await fakeFetch(q, { signal: controller.signal });
+      row.lastChild.textContent = '✓';
+      if (items.length) G.render(items, q, q); else { G.status.textContent = 'ما في نتائج 🤷'; }
+    } catch (e) {
+      if (e.name === 'AbortError') row.lastChild.textContent = '✗ انلغى';
+    }
+  }
+</script>
+</body>
+</html>
