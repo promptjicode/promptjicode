@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #06 · القيمة والمرجع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; --blue: #9bb8ff; --violet: #d2a8ff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 18px; }
+  .tabs, .btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tabs button, .btns button { font: inherit; font-weight: 900; border-radius: 12px; padding: 8px 14px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); }
+  .tabs button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .btns button.main { background: var(--accent); color: #1a0f09; border-color: var(--accent); }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .code { background: #0d1117; border: 2px solid #2a313c; border-radius: 16px; padding: 10px 0; direction: ltr; overflow-x: auto; margin-bottom: 12px; }
+  .code div { font-family: "JetBrains Mono", monospace; font-size: 14px; line-height: 28px; padding: 0 16px; white-space: pre; color: #c9d1d9; }
+  .code div.new { background: rgba(226,161,92,.14); box-shadow: inset 4px 0 0 var(--accent); }
+  .mem { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .var { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 12px; }
+  .var h3 { margin: 0 0 8px; font-family: "JetBrains Mono", monospace; font-size: 22px; direction: ltr; text-align: left; }
+  .box { border-radius: 12px; border: 2px solid; padding: 8px 10px; margin-top: 6px; font-family: "JetBrains Mono", monospace; font-size: 14px; direction: ltr; text-align: left; line-height: 1.8; }
+  .box .addr { font-weight: 700; }
+  .c1 { border-color: #8a6a3c; } .c1 .addr { color: var(--accent); }
+  .c2 { border-color: #3c7a52; } .c2 .addr { color: var(--good); }
+  .c3 { border-color: #6b4f8a; } .c3 .addr { color: var(--violet); }
+  .c4 { border-color: #5b6b8a; } .c4 .addr { color: var(--blue); }
+  .changed { animation: flash .6s ease-out; }
+  @keyframes flash { from { background: rgba(226,161,92,.35); } }
+  @media (prefers-reduced-motion: reduce) { .changed { animation: none; } }
+  .verdict { margin-top: 12px; min-height: 52px; font-weight: 900; line-height: 1.7; }
+  .verdict .bad { color: var(--bad); } .verdict .good { color: var(--good); }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+  @media (max-width: 480px) { .mem { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #06 · 🟢 Junior</span>
+  <h1>عدّلت <code>b</code>… ليش تغيّر <code>a</code>؟</h1>
+  <p class="sub">اختار طريقة النسخ، وعدّل من <code>b</code>، وشوف شو بيصير بـ <code>a</code>. كل 📦 أوبجكت بالذاكرة إلو عنوان (#1، #2…). إذا <code>a</code> و<code>b</code> عم يأشّروا على نفس العنوان، أي تعديل بيبيّن عند الاتنين.</p>
+
+  <div class="tabs" role="group" aria-label="طريقة النسخ">
+    <button type="button" data-m="assign" aria-pressed="true"><code>b = a</code></button>
+    <button type="button" data-m="spread" aria-pressed="false"><code>b = {...a}</code></button>
+    <button type="button" data-m="clone" aria-pressed="false"><code>structuredClone(a)</code></button>
+  </div>
+  <div class="code" id="code"></div>
+  <div class="btns">
+    <button type="button" class="main" id="likes"><code>b.likes++</code></button>
+    <button type="button" class="main" id="name"><code>b.user.name = 'Ali'</code></button>
+    <button type="button" id="reset">من الأول</button>
+  </div>
+
+  <div class="mem">
+    <div class="var"><h3>a</h3><div id="memA"></div></div>
+    <div class="var"><h3>b</h3><div id="memB"></div></div>
+  </div>
+  <p class="verdict" id="verdict" aria-live="polite"></p>
+
+  <section class="panel">
+    <p><b>القاعدة:</b> الأوبجكت بينتقل <b>بالعنوان</b>، مش بالقيمة. <code>b = a</code> بيعطي <code>b</code> نفس العنوان، فما في نسخة أبداً.</p>
+    <p><code>{...a}</code> بينسخ <b>أول طبقة بس</b> (shallow copy): الأرقام والنصوص بتنتسخ، بس الأوبجكتات اللي جوّا بتضل نفس العنوان. لنسخة كاملة استعمل <code>structuredClone(a)</code>.</p>
+    <p>و<code>const</code> ما بيمنع تعديل جوّا الأوبجكت. بيمنع بس <code>a = شي تاني</code>.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const MODES = {
+    assign: { line: 'const b = a;', make: (a) => a },
+    spread: { line: 'const b = { ...a };', make: (a) => ({ ...a }) },
+    clone: { line: 'const b = structuredClone(a);', make: (a) => structuredClone(a) },
+  };
+  let mode = 'assign', a, b, done = [];
+  const ids = new WeakMap(); let nextId = 1;
+  const addr = (o) => { if (!ids.has(o)) ids.set(o, nextId++); return ids.get(o); };
+
+  function reset() {
+    nextId = 1; a = { likes: 1, user: { name: 'Sara' } }; b = MODES[mode].make(a); done = [];
+    addr(a); addr(a.user); addr(b); addr(b.user);
+    draw(); $('verdict').textContent = 'اضغط زر من فوق لتعدّل من b.';
+  }
+  function box(o, cls) {
+    const id = addr(o), u = addr(o.user);
+    return `<div class="box c${id}"><span class="addr">📦 #${id}</span><br>likes: ${o.likes}<br>user: → <span class="c${u}" style="border:0"><span class="addr">📦 #${u}</span></span></div>
+            <div class="box c${u}" style="margin-inline-start:24px"><span class="addr">📦 #${u}</span><br>name: '${o.user.name}'</div>`;
+  }
+  function draw(flash) {
+    const L = ["const a = { likes: 1, user: { name: 'Sara' } };", MODES[mode].line, ...done, '', 'console.log(a.likes, a.user.name);'];
+    $('code').innerHTML = L.map((l, i) => `<div class="${i >= 2 && i < 2 + done.length ? 'new' : ''}">${l.replace(/</g, '&lt;')}</div>`).join('');
+    $('memA').innerHTML = box(a); $('memB').innerHTML = box(b);
+    if (flash) document.querySelectorAll('.mem .box').forEach((el) => el.classList.add('changed'));
+  }
+  function after(what) {
+    draw(true);
+    console.log('%c▶ PromptjiCode · ' + MODES[mode].line + ' → ' + what, 'color:#e2a15c;font-weight:bold');
+    console.log(a.likes, a.user.name);
+    const touched = what === 'likes' ? a.likes !== 1 : a.user.name !== 'Sara';
+    $('verdict').innerHTML = `<code>console.log(a.likes, a.user.name)</code> ← <code>${a.likes} '${a.user.name}'</code><br>` +
+      (touched ? `<span class="bad">✗ عدّلنا من b، وتغيّر a كمان، لأنو الاتنين عم يأشّروا على نفس 📦.</span>` : `<span class="good">✓ a ما تغيّر، لأنو b إلو 📦 تانية.</span>`);
+  }
+  $('likes').addEventListener('click', () => { b.likes++; done.push('b.likes++;'); after('likes'); });
+  $('name').addEventListener('click', () => { b.user.name = 'Ali'; done.push("b.user.name = 'Ali';"); after('name'); });
+  $('reset').addEventListener('click', reset);
+  document.querySelectorAll('.tabs button').forEach((t) => t.addEventListener('click', () => {
+    mode = t.dataset.m; document.querySelectorAll('.tabs button').forEach((x) => x.setAttribute('aria-pressed', String(x === t))); reset();
+  }));
+  reset();
+</script>
+</body>
+</html>
