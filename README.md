@@ -82,6 +82,13 @@
 <td align="center"><a href="09-search-debounce/prompt.md">prompt.md</a></td>
 <td align="center"><a href="09-search-debounce/index.html">index.html</a></td>
 </tr>
+<tr>
+<td align="center">10</td>
+<td align="center">زر دفع… ضغطة زيادة، وانسحبت المصاري مرتين</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/10-pay-button/">▶ جرّب الزرين</a></td>
+<td align="center"><a href="10-pay-button/prompt.md">prompt.md</a></td>
+<td align="center"><a href="10-pay-button/index.html">index.html</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">أسئلة المقابلات</h2>
