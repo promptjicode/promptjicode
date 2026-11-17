@@ -153,6 +153,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/06-reference/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/06-reference/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">07</td>
+<td align="center">نفس الحركة… وحدة بتتقطّع ووحدة لأ</td>
+<td align="center">🔴 Senior</td>
+<td align="center">Rendering</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/07-transform-vs-left/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/07-transform-vs-left/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #07 · transform ضد left</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: #ff9a9a; border: 2px solid #6b2c2c; border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .busy { width: 100%; font: inherit; font-weight: 900; font-size: 17px; padding: 14px; border-radius: 14px; border: 0; background: var(--accent); color: #1a0f09; cursor: pointer; }
+  .busy:disabled { background: #6b5a4a; color: #fbf1e4; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .status { min-height: 28px; margin: 10px 0; font-weight: 900; text-align: center; }
+  .lane { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 12px; margin-bottom: 12px; }
+  .lane .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 900; }
+  .lane .h code { font-size: 14px; color: var(--muted); }
+  .track { position: relative; height: 64px; background: #14100d; border-radius: 12px; overflow: hidden; direction: ltr; }
+  .box { position: absolute; top: 8px; left: 8px; width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-size: 24px; }
+  .viaLeft .box { background: var(--bad); animation: byLeft 1.2s ease-in-out infinite alternate; }
+  .viaTransform .box { background: var(--good); animation: byTransform 1.2s ease-in-out infinite alternate; }
+  @keyframes byLeft { to { left: calc(100% - 56px); } }
+  @keyframes byTransform { to { transform: translateX(calc(var(--w) - 64px)); } }
+  .stages { display: flex; gap: 6px; margin-top: 8px; direction: ltr; justify-content: flex-start; flex-wrap: wrap; }
+  .stages span { font-family: "JetBrains Mono", monospace; font-size: 12px; padding: 2px 10px; border-radius: 99px; background: #2a2018; color: #6b5a4a; }
+  .stages span.on { background: rgba(226,161,92,.2); color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .box { animation-duration: 3s !important; } }
+  @media (max-width: 480px) { .lane .h code { display: none; } }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #07 · 🔴 Senior</span>
+  <h1>نفس الحركة… وحدة بتتقطّع ووحدة لأ</h1>
+  <p class="sub">المربعين عم يتحركوا بـ CSS animation. الأحمر بـ <code>left</code>، والأخضر بـ <code>transform</code>. اضغط الزر لتشغّل JavaScript تقيل ثانيتين (متل صفحة عم تحمّل)، وراقب مين بيوقف ومين بيكمّل.</p>
+
+  <button type="button" class="busy" id="busy">⚙️ شغّل JavaScript تقيل (ثانيتين)</button>
+  <p class="status" id="status" aria-live="polite"></p>
+
+  <div class="lane viaLeft"><div class="h"><span>🔴 بـ <code>left</code></span><code>@keyframes { to { left: … } }</code></div><div class="track"><div class="box">🃏</div></div>
+    <div class="stages"><span class="on">Layout</span><span class="on">Paint</span><span class="on">Composite</span></div></div>
+  <div class="lane viaTransform"><div class="h"><span>🟢 بـ <code>transform</code></span><code>@keyframes { to { transform: … } }</code></div><div class="track" id="t2"><div class="box">🃏</div></div>
+    <div class="stages"><span>Layout</span><span>Paint</span><span class="on">Composite</span></div></div>
+
+  <section class="panel">
+    <p><b>ليش؟</b> المتصفح بيرسم كل frame بـ 3 مراحل: <b>Layout</b> (وين كل عنصر) ← <b>Paint</b> (الألوان والنصوص) ← <b>Composite</b> (تركيب الطبقات).</p>
+    <p><code>left</code> بيغيّر مكان العنصر بالصفحة، فبيعيد الـ 3 مراحل 60 مرة بالثانية، وكلها على الـ main thread. إذا الـ JavaScript مشغول، الحركة بتوقف.</p>
+    <p><code>transform</code> و<code>opacity</code> ما بيغيّروا الـ layout، فبيروحوا على الـ Composite بس، واللي بيشتغل على الـ GPU بـ thread لحاله. لهيك بيضلوا ناعمين حتى لو الصفحة مشغولة.</p>
+    <p>جرّبها كمان من Chrome DevTools: <b>Performance</b> ← سجّل ثانيتين، وشوف الـ Layout البنفسجي مع <code>left</code>.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  // The transform keyframe needs the track width in px
+  const setW = () => document.querySelectorAll('.track').forEach((t) => t.style.setProperty('--w', t.clientWidth + 'px'));
+  setW(); addEventListener('resize', setW);
+
+  const btn = document.getElementById('busy'), status = document.getElementById('status');
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    status.textContent = '⏳ الـ JavaScript مشغول… الأحمر واقف، والأخضر لسا ماشي';
+    console.log('%c▶ PromptjiCode · main thread busy for 2s', 'color:#e2a15c;font-weight:bold');
+    // Let the message paint, then block the main thread for 2 seconds
+    setTimeout(() => {
+      const end = performance.now() + 2000;
+      while (performance.now() < end) { /* busy */ }
+      btn.disabled = false;
+      status.textContent = '✓ خلص. جرّب كمان مرة وراقب المربع الأحمر';
+      console.log('done: left froze, transform kept moving');
+    }, 50);
+  });
+</script>
+</body>
+</html>
