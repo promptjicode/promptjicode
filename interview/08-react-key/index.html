@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #08 · key بـ React</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .steps { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 10px 36px 10px 16px; margin: 0 0 14px; line-height: 1.9; font-weight: 700; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .list { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 12px; }
+  .list h2 { margin: 0 0 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .list.bad h2 { color: var(--bad); } .list.good h2 { color: var(--good); } .list.rand h2 { color: var(--accent); }
+  .row { display: flex; align-items: center; gap: 8px; background: #fbf6ef; color: #1f1611; border-radius: 12px; padding: 8px 10px; margin-bottom: 6px; font-weight: 700; direction: ltr; }
+  .row input { width: 22px; height: 22px; accent-color: #2f9a5c; }
+  .row .lbl { flex: 1; }
+  .row .k { font-family: "JetBrains Mono", monospace; font-size: 11px; background: #efe6da; color: #7a6654; padding: 2px 8px; border-radius: 99px; }
+  .row button { font: inherit; font-size: 13px; border: 0; background: #ffe2dc; color: #a32c2c; border-radius: 8px; padding: 2px 8px; cursor: pointer; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .tools button { font: inherit; font-weight: 900; font-size: 13px; border-radius: 10px; padding: 6px 12px; border: 2px solid var(--line); background: #14100d; color: var(--ink); cursor: pointer; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #08 · 🟡 Mid · React</span>
+  <h1>حذفت Milk… ليش انتقل الـ ✓؟</h1>
+  <p class="sub">هاد React حقيقي. كل سطر عنده state لحاله (<code>done</code>). القائمة الأولى بـ <code>key={i}</code>، والتانية بـ <code>key={item.id}</code>.</p>
+  <ol class="steps"><li>علّم ✓ على <b><bdi>Bread</bdi></b></li><li>احذف <b><bdi>Milk</bdi></b> بزر ✕</li><li>شوف وين صار الـ ✓</li></ol>
+  <div id="root"></div>
+
+  <section class="panel">
+    <p><b>ليش؟</b> React بيعرف كل سطر من الـ <code>key</code> تبعه، مش من محتواه. مع <code>key={i}</code>، Bread كان <code>key=1</code> والـ ✓ تبعه مربوط بـ <code>key=1</code>. لما حذفنا Milk صار Eggs هو <code>key=1</code>، فـ React خلّى الـ state وحطّ عليها Eggs.</p>
+    <p><b>الحل:</b> <code>key={item.id}</code>، معرّف ثابت ما بيتغيّر مع الترتيب. و<code>key={Math.random()}</code> أسوأ: كل مرة بتتغيّر القائمة (حذف، إضافة، أو أي render للأب) بيمسح كل الأسطر وبيعملها من جديد، فالـ ✓ بيختفي.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script>
+  const h = React.createElement, { useState } = React;
+  const START = [{ id: 'm', name: '🥛 Milk' }, { id: 'b', name: '🍞 Bread' }, { id: 'e', name: '🥚 Eggs' }];
+
+  function Row({ label, k, onDelete }) {
+    const [done, setDone] = useState(false);          // each row keeps its own state
+    return h('div', { className: 'row' },
+      h('input', { type: 'checkbox', checked: done, onChange: () => setDone(!done), 'aria-label': label }),
+      h('span', { className: 'lbl' }, label),
+      h('span', { className: 'k' }, 'key=' + k),
+      h('button', { onClick: onDelete, 'aria-label': 'احذف ' + label }, '✕'));
+  }
+
+  function List({ title, cls, keyOf }) {
+    const [items, setItems] = useState(START);
+    const [, force] = useState(0);
+    const del = (id) => setItems(items.filter((x) => x.id !== id));
+    return h('div', { className: 'list ' + cls },
+      h('h2', null, title),
+      items.map((item, i) => { const k = keyOf(item, i); return h(Row, { key: k, k: typeof k === 'number' && k < 1 && k > 0 ? k.toFixed(3) : k, label: item.name, onDelete: () => del(item.id) }); }),
+      h('div', { className: 'tools' },
+        h('button', { onClick: () => setItems(START) }, '↺ رجّع القائمة'),
+        cls === 'rand' ? h('button', { onClick: () => force((n) => n + 1) }, 'اعمل render') : null));
+  }
+
+  function App() {
+    return h('div', null,
+      h('div', { className: 'grid' },
+        h(List, { title: h('span', null, '✗ ', h('code', null, 'key={i}')), cls: 'bad', keyOf: (it, i) => i }),
+        h(List, { title: h('span', null, '✓ ', h('code', null, 'key={item.id}')), cls: 'good', keyOf: (it) => it.id })),
+      h('div', { style: { marginTop: '12px' } },
+        h(List, { title: h('span', null, '🎲 ', h('code', null, 'key={Math.random()}'), ' · علّم ✓ واحذف سطر'), cls: 'rand', keyOf: () => Math.random() })));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>

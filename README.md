@@ -161,6 +161,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/07-transform-vs-left/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/07-transform-vs-left/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">08</td>
+<td align="center">حذفت سطر… والـ ✓ انتقل؟</td>
+<td align="center">🟡 Mid</td>
+<td align="center">React key</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/08-react-key/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/08-react-key/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>
