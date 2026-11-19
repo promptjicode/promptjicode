@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #09 · setState تلات مرات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .card h2 { margin: 0; font-size: 16px; }
+  .card.bad h2 { color: var(--bad); } .card.good h2 { color: var(--good); } .card.mix h2 { color: var(--accent); }
+  pre { margin: 0; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 12px; font-family: "JetBrains Mono", monospace; font-size: 13px; line-height: 1.7; color: #c9d1d9; direction: ltr; text-align: left; overflow-x: auto; }
+  .big { font: 900 34px "JetBrains Mono", monospace; border-radius: 16px; padding: 10px; border: 3px solid var(--accent); background: rgba(226,161,92,.12); color: var(--ink); cursor: pointer; }
+  .big:active { transform: scale(.97); }
+  .meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 700; }
+  .meta button { font: inherit; font-weight: 900; font-size: 13px; border-radius: 10px; padding: 4px 10px; border: 2px solid var(--line); background: #14100d; color: var(--ink); cursor: pointer; }
+  ol.q { margin: 0; padding: 8px 12px; list-style: none; background: #14100d; border: 2px dashed var(--line); border-radius: 12px; min-height: 96px; font-family: "JetBrains Mono", monospace; font-size: 13px; direction: ltr; text-align: left; line-height: 1.9; }
+  ol.q .r { color: var(--good); font-weight: 700; }
+  ol.q .hint { font-family: Cairo, sans-serif; color: var(--muted); direction: rtl; text-align: right; }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #09 · 🟡 Mid · React</span>
+  <h1>3 مرات <code>+1</code>… والعداد طلع 1؟</h1>
+  <p class="sub">هاد React حقيقي. اضغط كل زر مرة وحدة وشوف الرقم. تحت كل زر في طابور بيوريك شو طلب كل سطر من React، وشو صارت القيمة بعده.</p>
+  <div id="root"></div>
+
+  <section class="panel">
+    <p><b>ليش؟</b> بكل render قيمة <code>count</code> ثابتة، متل صورة. فالأسطر التلاتة كلها بتقول لـ React «خلّيها <code>0 + 1</code>». React بيجمع الطلبات (هاد اسمه batching) وبيعمل render واحد بالآخر، وآخر طلب بيقول 1.</p>
+    <p><b>الحل:</b> <code>setCount(c =&gt; c + 1)</code>. هيك React بيعطي كل طلب آخر قيمة طلعت من الطلب اللي قبله، فبتصير 1 ← 2 ← 3.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script>
+  const h = React.createElement, { useState } = React;
+  // each step: [label shown in the queue, function React will run]
+  const VALUE = (count) => ({ text: (prev) => 'setCount(' + count + ' + 1)', run: () => count + 1 });
+  const UPDATER = () => ({ text: (prev) => 'setCount(c => c + 1)', run: (prev) => prev + 1 });
+
+  function Counter({ title, cls, code, plan }) {
+    const [count, setCount] = useState(0);
+    const [log, setLog] = useState([]);
+
+    function handleClick() {
+      const steps = plan(count);
+      // narrate what React will do with the queue (same order, same values)
+      let v = count; const lines = [];
+      steps.forEach((s) => { const before = v; v = s.run(v); lines.push({ t: s.text(before), r: v }); });
+      setLog(lines);
+      // the real calls
+      steps.forEach((s) => s.run.length ? setCount((c) => s.run(c)) : setCount(s.run()));
+    }
+
+    return h('div', { className: 'card ' + cls },
+      h('h2', null, title),
+      h('pre', null, code),
+      h('button', { className: 'big', onClick: handleClick, 'aria-label': 'العداد: ' + count }, count),
+      h('div', { className: 'meta' },
+        h('span', null, 'الطابور بآخر ضغطة · render واحد'),
+        h('button', { onClick: () => { setCount(0); setLog([]); } }, '↺ صفر')),
+      h('ol', { className: 'q' },
+        log.length ? log.map((l, i) => h('li', { key: i }, (i + 1) + '. ' + l.t + '  → ', h('span', { className: 'r' }, l.r)))
+                   : h('li', { className: 'hint' }, 'اضغط الزر…')));
+  }
+
+  function App() {
+    return h('div', null,
+      h('div', { className: 'grid' },
+        h(Counter, { title: '✗ count + 1 · تلات مرات', cls: 'bad', plan: (c) => [VALUE(c), VALUE(c), VALUE(c)],
+          code: 'setCount(count + 1);\nsetCount(count + 1);\nsetCount(count + 1);' }),
+        h(Counter, { title: '✓ c => c + 1 · تلات مرات', cls: 'good', plan: () => [UPDATER(), UPDATER(), UPDATER()],
+          code: 'setCount(c => c + 1);\nsetCount(c => c + 1);\nsetCount(c => c + 1);' })),
+      h('div', { style: { marginTop: '12px' } },
+        h(Counter, { title: '🧪 وهلّق إذا خلطنا الطريقتين؟', cls: 'mix', plan: (c) => [UPDATER(), VALUE(c), UPDATER()],
+          code: 'setCount(c => c + 1);\nsetCount(count + 1);\nsetCount(c => c + 1);' })));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+</script>
+</body>
+</html>

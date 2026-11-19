@@ -169,6 +169,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/08-react-key/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/08-react-key/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">09</td>
+<td align="center">3 مرات <code dir="ltr">+1</code>… والعداد طلع كم؟</td>
+<td align="center">🟡 Mid</td>
+<td align="center">React setState</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/09-setstate-batching/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/09-setstate-batching/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>
