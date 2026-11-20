@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أنقذتك من كارثة #01 · commit على main بالغلط</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --blue: #9bb8ff; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--blue); border: 2px solid rgba(155,184,255,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .cmds { display: grid; gap: 10px; margin-bottom: 16px; }
+  .cmd { display: flex; align-items: center; gap: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 14px; padding: 10px 12px; direction: ltr; }
+  .cmd code { flex: 1; font-size: 16px; color: #e6edf3; }
+  .cmd code b { color: var(--good); font-weight: 400; }
+  .cmd .n { font-family: Cairo, sans-serif; font-weight: 900; color: var(--blue); }
+  .cmd button { font: inherit; font-size: 13px; font-weight: 900; border-radius: 10px; padding: 6px 12px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); direction: rtl; }
+  .cmd button.run { background: var(--blue); color: #0d1424; border-color: var(--blue); }
+  .cmd button:disabled { opacity: .35; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .sim { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 14px; }
+  .sim h2 { margin: 0 0 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .sim h2 button { font: inherit; font-size: 13px; font-weight: 700; background: none; border: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+  svg { width: 100%; height: auto; display: block; direction: ltr; }
+  .term { margin-top: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 12px; min-height: 60px; direction: ltr; font-family: "JetBrains Mono", monospace; font-size: 13px; color: #8b949e; white-space: pre-wrap; }
+  .msg { margin-top: 10px; font-weight: 900; min-height: 26px; }
+  .warn { background: #2a2412; border: 2px solid #6b5a2c; color: #ffd479; border-radius: 16px; padding: 12px 16px; margin-top: 16px; line-height: 1.8; font-weight: 700; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 16px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">🛟 أنقذتك من كارثة #01 · Git</span>
+  <h1>عملت commit على <code>main</code> بالغلط؟</h1>
+  <p class="sub">الحل بـ 3 أوامر. انسخهم من هون، أو جرّبهم بالمحاكي تحت وشوف شو بيصير بالـ branches خطوة خطوة.</p>
+
+  <div class="cmds" id="cmds"></div>
+
+  <section class="sim">
+    <h2><span>🧪 المحاكي</span><button type="button" id="reset">من الأول</button></h2>
+    <svg id="g" viewBox="0 0 700 260" role="img" aria-label="رسمة الـ commits والـ branches"></svg>
+    <div class="term" id="term">$ git log --oneline&#10;a91f2e (HEAD -> main) login page   ← oops, on main</div>
+    <p class="msg" id="msg" aria-live="polite">اضغط «شغّل» على الأمر الأول.</p>
+  </section>
+
+  <div class="warn">⚠️ هالطريقة إذا <b>لسا ما عملت push</b>، وما عندك تعديلات مش محفوظة (<code>git status</code> لازم يكون نضيف)، لأنو <code>--hard</code> بيمسح أي تعديل مش محفوظ. إذا عملت push، الحل بالريل الجاي.</div>
+
+  <section class="panel">
+    <p><b>1.</b> <code>git switch -c login</code>: بيعمل branch جديد اسمه login <b>من مكانك هلّق</b>، فالـ commit صار فيه كمان.</p>
+    <p><b>2.</b> <code>git switch main</code>: رجعنا على main.</p>
+    <p><b>3.</b> <code>git reset --hard HEAD~1</code>: main رجع commit واحد لورا. الـ commit ما انمحى، لسا على login.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الكود</a></footer>
+</main>
+
+<script>
+  const CMDS = ['git switch -c login', 'git switch main', 'git reset --hard HEAD~1'];
+  const OUT = ["Switched to a new branch 'login'", "Switched to branch 'main'", 'HEAD is now at 3f2a1c footer'];
+  const MSG = ['✓ عملنا login، والـ commit صار فيه كمان.', '✓ رجعنا على main.', '✓ main رجع خطوة لورا، والشغل بأمان على login.'];
+  let step = 0;
+  const $ = (id) => document.getElementById(id);
+
+  $('cmds').innerHTML = CMDS.map((c, i) => `<div class="cmd"><span class="n">${i + 1}</span><code><b>$</b> ${c}</code>
+    <button type="button" class="run" data-i="${i}">شغّل</button><button type="button" data-copy="${c}">انسخ</button></div>`).join('');
+
+  function draw() {
+    // state: s0 all on main; s1 login created (HEAD login); s2 HEAD main; s3 main moved back, C on login
+    const moved = step >= 3, head = step === 1 ? 'login' : 'main';
+    const C = moved ? { x: 600, y: 70 } : { x: 600, y: 170 };
+    const mainX = moved ? 440 : 600;
+    const tag = (x, y, t, fill, stroke, color) => `<g><rect x="${x - 50}" y="${y - 18}" width="100" height="34" rx="9" fill="${fill}" stroke="${stroke}" stroke-width="2"/><text x="${x}" y="${y + 6}" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="${color}">${t}</text></g>`;
+    let s = `<line x1="120" y1="170" x2="440" y2="170" stroke="#8a6a3c" stroke-width="6"/>`;
+    s += moved ? `<path d="M 440 170 C 510 170, 530 70, ${C.x} 70" stroke="#2f6b45" stroke-width="6" fill="none"/>` : `<line x1="440" y1="170" x2="600" y2="170" stroke="#ff6b6b" stroke-width="6"/>`;
+    [[120, 'init'], [280, 'header'], [440, 'footer']].forEach(([x, l]) => { s += `<circle cx="${x}" cy="170" r="20" fill="#5a4634" stroke="#8a6a3c" stroke-width="4"/><text x="${x}" y="212" text-anchor="middle" font-family="Cairo" font-size="15" fill="#b9a593">${l}</text>`; });
+    s += `<circle cx="${C.x}" cy="${C.y}" r="20" fill="${moved ? '#1f5a36' : '#7a2b2b'}" stroke="${moved ? '#7ddc9a' : '#ff6b6b'}" stroke-width="4"/><text x="${C.x}" y="${C.y + 42}" text-anchor="middle" font-family="Cairo" font-size="15" fill="#b9a593">login page</text>`;
+    s += tag(mainX, 245, 'main', '#2a2018', '#8a6a3c', '#ffd7a8');
+    if (step >= 1) s += tag(C.x, C.y - 45, 'login', '#13261a', '#2f6b45', '#9ef0b8');
+    const hx = head === 'login' ? C.x + 110 : mainX + 110, hy = head === 'login' ? C.y - 45 : 245;
+    s += tag(hx, hy, '📍 HEAD', '#1b2230', '#3b4a66', '#cfd8ee');
+    $('g').innerHTML = s;
+    document.querySelectorAll('.run').forEach((b) => { b.disabled = +b.dataset.i !== step; });
+  }
+  document.querySelectorAll('.run').forEach((b) => b.addEventListener('click', () => {
+    const i = +b.dataset.i; if (i !== step) return;
+    $('term').textContent += `\n$ ${CMDS[i]}\n${OUT[i]}`;
+    step++; draw(); $('msg').textContent = MSG[i] + (step === 3 ? ' 🎉' : '');
+  }));
+  document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = '✓ انتسخ'; } catch { b.textContent = 'انسخ يدوي'; }
+    setTimeout(() => { b.textContent = 'انسخ'; }, 1500);
+  }));
+  $('reset').addEventListener('click', () => { step = 0; $('term').textContent = '$ git log --oneline\na91f2e (HEAD -> main) login page   ← oops, on main'; $('msg').textContent = 'اضغط «شغّل» على الأمر الأول.'; draw(); });
+  draw();
+</script>
+</body>
+</html>

@@ -179,6 +179,28 @@
 </tr>
 </tbody>
 </table>
+<h2 dir="rtl">🛟 أنقذتك من كارثة</h2>
+<p dir="rtl">أوامر Git اللي بتنقذك لما يصير شي غلط: كل ريل إلو محاكي بتجرّب فيه الأوامر خطوة خطوة، والأوامر جاهزة للنسخ.</p>
+<table dir="rtl">
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="center">الكارثة</th>
+<th align="center">الأوامر</th>
+<th align="center">جرّب</th>
+<th align="center">الشرح</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">01</td>
+<td align="center">عملت commit على main بالغلط؟</td>
+<td align="center"><code dir="ltr">switch -c</code> · <code dir="ltr">reset --hard</code></td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/git/01-wrong-branch/">▶ جرّب بالمحاكي</a></td>
+<td align="center"><a href="git/01-wrong-branch/README.md">README</a></td>
+</tr>
+</tbody>
+</table>
 <h2 dir="rtl">كيف تجرّب</h2>
 <ol dir="rtl">
 <li dir="rtl">افتح مجلد الريل.</li>
