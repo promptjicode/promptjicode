@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #10 · مين بيربح بالـ CSS؟</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .stage { background: #fbf6ef; border-radius: 18px; padding: 18px; text-align: center; margin-bottom: 12px; }
+  .stage .card { display: inline-block; padding: 6px 30px; border-radius: 12px; background: #efe6da; }
+  .stage h2 { margin: 6px 0; font: 900 46px "JetBrains Mono", monospace; color: #222; transition: color .2s; }
+  .stage small { display: block; color: #7a6654; font-weight: 700; font-size: 13px; }
+  .rules { display: flex; flex-direction: column; gap: 8px; }
+  .rule { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px; background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 8px 12px; direction: ltr; }
+  .rule.win { border-color: var(--good); background: rgba(125,220,154,.08); }
+  .rule.off { opacity: .45; }
+  .rule input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--accent); }
+  .rule code { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sw { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 8px; }
+  .score { display: flex; gap: 4px; }
+  .score span { min-width: 26px; text-align: center; font: 700 15px "JetBrains Mono", monospace; padding: 2px 6px; border-radius: 8px; background: #14100d; border: 1px solid var(--line); }
+  .score span.id { color: #ff9a9a; } .score span.cl { color: #9bb8ff; } .score span.tg { color: #9ef0b8; }
+  .tag { font-size: 13px; font-weight: 900; color: var(--good); direction: rtl; text-align: center; white-space: nowrap; }
+  .tag.miss { color: var(--muted); }
+  .legend { display: flex; gap: 14px; justify-content: center; font-size: 13px; color: var(--muted); font-weight: 700; margin: 6px 0 12px; }
+  .legend b.id { color: #ff9a9a; } .legend b.cl { color: #9bb8ff; } .legend b.tg { color: #9ef0b8; }
+  .add { background: var(--card); border: 2px dashed var(--line); border-radius: 16px; padding: 12px; margin-top: 12px; }
+  .add h2 { margin: 0 0 8px; font-size: 16px; }
+  .add .row { display: flex; gap: 8px; flex-wrap: wrap; direction: ltr; }
+  .add input[type=text] { flex: 1; min-width: 200px; font: 15px "JetBrains Mono", monospace; padding: 8px 10px; border-radius: 10px; border: 2px solid var(--line); background: #0d1117; color: #e6edf3; }
+  .add select, .add button, .presets button { font: inherit; font-weight: 900; font-size: 14px; border-radius: 10px; padding: 6px 12px; border: 2px solid var(--line); background: #14100d; color: var(--ink); cursor: pointer; }
+  .presets { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .presets button { font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700; direction: ltr; }
+  .msg { font-size: 13px; color: var(--muted); margin-top: 6px; min-height: 20px; }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+<style id="dyn"></style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #10 · 🟢 Junior · CSS</span>
+  <h1>تلات قواعد على نفس العنوان… مين بيربح؟</h1>
+  <p class="sub">طفّي وشغّل القواعد وشوف لون <code>Hello</code>. جنب كل قاعدة نقاطها بتلات خانات: <b style="color:#ff9a9a">ID</b> · <b style="color:#9bb8ff">Class</b> · <b style="color:#9ef0b8">Tag</b>.</p>
+
+  <div class="stage a b c d e f g h i j k" id="main">
+    <small><code>div#main › div.card › h2.title</code></small>
+    <div class="card"><h2 class="title">Hello</h2></div>
+  </div>
+
+  <div class="legend"><span><b class="id">ID</b> · <b class="cl">Class</b> · <b class="tg">Tag</b></span><span>المقارنة خانة خانة من الشمال</span></div>
+  <div class="rules" id="rules"></div>
+
+  <section class="add">
+    <h2>✍️ جرّب selector من عندك</h2>
+    <div class="row">
+      <input type="text" id="sel" value=".card h2" aria-label="selector" spellcheck="false">
+      <select id="col" aria-label="اللون"><option value="purple">purple</option><option value="orange">orange</option><option value="hotpink">hotpink</option></select>
+      <button id="addBtn">+ ضيف</button>
+    </div>
+    <div class="presets">
+      <button data-s=".a.b.c.d.e.f.g.h.i.j.k .title">11 class</button>
+      <button data-s="#main .card h2.title">#main .card h2.title</button>
+      <button data-s="h2">h2</button>
+      <button data-s="div div h2">div div h2</button>
+    </div>
+    <div class="msg" id="msg"></div>
+  </section>
+
+  <section class="panel">
+    <p><b>ليش أزرق؟</b> كل قاعدة إلها نقاط بتلات خانات: <code>ID · Class · Tag</code></p>
+    <ul>
+      <li><code>#main h2</code> ← <code>1·0·1</code></li>
+      <li><code>.card .title</code> ← <code>0·2·0</code></li>
+      <li><code>h2.title</code> ← <code>0·1·1</code></li>
+    </ul>
+    <p>منقارن من الشمال: أول خانة (ID) عند الأزرق 1 وعند الباقي 0، فهو ربح وما منكمّل.</p>
+    <p><b>والترتيب؟</b> آخر قاعدة بتربح <b>بس</b> إذا النقاط متساوية تماماً.</p>
+    <p><b>وهلّق إذا 11 class؟</b></p>
+    <ul>
+      <li><code>.a.b.c.d.e.f.g.h.i.j.k .title</code> ← <code>0·12·0</code></li>
+    </ul>
+    <p>لسا بتخسر قدام <code>1·0·1</code>. الـ class ما بتتجمّع لتصير ID. بهالصفحة الـ <code>div#main</code> عليه الـ classes من a لـ k، فجرّبها من زر «11 class».</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  const target = document.querySelector('#main h2.title');
+  const rules = [
+    { sel: '#main h2', color: 'blue', on: true },
+    { sel: '.card .title', color: 'red', on: true },
+    { sel: 'h2.title', color: 'green', on: true },
+  ];
+
+  // specificity as [ids, classes, tags]; good enough for plain selectors (no :is/:not/:where)
+  function spec(sel) {
+    let s = sel.replace(/::[\w-]+/g, ' T ');
+    const ids = (s.match(/#[\w-]+/g) || []).length; s = s.replace(/#[\w-]+/g, ' ');
+    const cls = (s.match(/\.[\w-]+|\[[^\]]*\]|:[\w-]+(\([^)]*\))?/g) || []).length; s = s.replace(/\.[\w-]+|\[[^\]]*\]|:[\w-]+(\([^)]*\))?/g, ' ');
+    const tags = (s.match(/(^|[\s>+~])(?!\*)[a-zA-Z][\w-]*/g) || []).length;
+    return [ids, cls, tags];
+  }
+  const cmp = (a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  function draw() {
+    const live = rules.map((r, i) => ({ ...r, i, sp: spec(r.sel), hit: target.matches(r.sel) }));
+    let win = null;
+    live.forEach((r) => { if (r.on && r.hit && (!win || cmp(r.sp, win.sp) >= 0)) win = r; });   // tie -> later rule
+    document.getElementById('dyn').textContent = rules.filter((r) => r.on).map((r) => `${r.sel} { color: ${r.color}; }`).join('\n');
+    document.getElementById('rules').innerHTML = live.map((r) => `
+      <div class="rule ${r === win ? 'win' : ''} ${r.on ? '' : 'off'}">
+        <input type="checkbox" data-i="${r.i}" ${r.on ? 'checked' : ''} aria-label="شغّل ${esc(r.sel)}">
+        <code><span class="sw" style="background:${r.color}" title="${r.color}"></span>${esc(r.sel)}</code>
+        <div class="score"><span class="id">${r.sp[0]}</span><span class="cl">${r.sp[1]}</span><span class="tg">${r.sp[2]}</span></div>
+        <div class="tag ${r.hit ? '' : 'miss'}">${!r.hit ? 'ما بتلقطو' : r === win ? '🏆 ربحت' : ''}</div>
+      </div>`).join('');
+  }
+  document.getElementById('rules').addEventListener('change', (e) => { const i = e.target.dataset.i; if (i !== undefined) { rules[i].on = e.target.checked; draw(); } });
+  function add(sel) {
+    const msg = document.getElementById('msg');
+    sel = sel.trim();
+    try { document.querySelector(sel); } catch { msg.textContent = 'هاد مش selector صحيح'; return; }
+    rules.push({ sel, color: document.getElementById('col').value, on: true });
+    msg.textContent = target.matches(sel) ? 'انضافت كآخر قاعدة بالملف.' : 'انضافت… بس هالـ selector ما بيلقط Hello.';
+    draw();
+  }
+  document.getElementById('addBtn').onclick = () => add(document.getElementById('sel').value);
+  document.querySelectorAll('.presets button').forEach((b) => b.onclick = () => { document.getElementById('sel').value = b.dataset.s; add(b.dataset.s); });
+  draw();
+</script>
+</body>
+</html>

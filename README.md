@@ -177,6 +177,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/09-setstate-batching/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/09-setstate-batching/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">10</td>
+<td align="center">تلات قواعد… مين بيربح؟</td>
+<td align="center">🟢 Junior</td>
+<td align="center">CSS specificity</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/10-specificity/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/10-specificity/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">🛟 أنقذتك من كارثة</h2>
