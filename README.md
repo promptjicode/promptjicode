@@ -207,6 +207,13 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/git/01-wrong-branch/">▶ جرّب بالمحاكي</a></td>
 <td align="center"><a href="git/01-wrong-branch/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">02</td>
+<td align="center">عملت push… وبعدين انتبهت؟</td>
+<td align="center"><code dir="ltr">revert</code> · <code dir="ltr">push</code></td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/git/02-revert-after-push/">▶ جرّب بالمحاكي</a></td>
+<td align="center"><a href="git/02-revert-after-push/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>

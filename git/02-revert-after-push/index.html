@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أنقذتك من كارثة #02 · عملت push… وبعدين انتبهت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --blue: #9bb8ff; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--blue); border: 2px solid rgba(155,184,255,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .cmds { display: grid; gap: 10px; margin-bottom: 16px; }
+  .cmd { display: flex; align-items: center; gap: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 14px; padding: 10px 12px; direction: ltr; }
+  .cmd code { flex: 1; font-size: 16px; color: #e6edf3; }
+  .cmd code b { color: var(--good); font-weight: 400; }
+  .cmd button, .tabs button, .steps button { font: inherit; font-size: 13px; font-weight: 900; border-radius: 10px; padding: 6px 12px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); direction: rtl; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tabs button { font-size: 14px; padding: 8px 14px; }
+  .tabs button[aria-pressed="true"].bad { background: #2a1515; border-color: var(--bad); color: #ffb3b3; }
+  .tabs button[aria-pressed="true"].good { background: #13261a; border-color: var(--good); color: #9ef0b8; }
+  .steps { display: flex; gap: 6px; flex-wrap: wrap; direction: ltr; margin: 8px 0; }
+  .steps button { font-family: "JetBrains Mono", monospace; font-weight: 700; direction: ltr; }
+  .steps button.run { background: var(--blue); color: #0d1424; border-color: var(--blue); }
+  .steps button:disabled { opacity: .35; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .sim { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 14px; }
+  .sim h2 { margin: 0 0 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .sim h2 button { font: inherit; font-size: 13px; font-weight: 700; background: none; border: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+  svg { width: 100%; height: auto; display: block; direction: ltr; }
+  .term { margin-top: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 12px; min-height: 60px; direction: ltr; font-family: "JetBrains Mono", monospace; font-size: 13px; color: #8b949e; white-space: pre-wrap; }
+  .term .e { color: var(--bad); }
+  .msg { margin-top: 10px; font-weight: 900; min-height: 26px; line-height: 1.8; }
+  .msg.bad { color: #ff9a9a; } .msg.good { color: var(--good); }
+  .warn { background: #2a2412; border: 2px solid #6b5a2c; color: #ffd479; border-radius: 16px; padding: 12px 16px; margin-top: 16px; line-height: 1.8; font-weight: 700; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 16px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">🛟 أنقذتك من كارثة #02 · Git</span>
+  <h1>عملت <code>push</code>… وبعدين انتبهت إنو في غلط؟</h1>
+  <p class="sub">الكود صار على السيرفر وعند الفريق، فما منمسح التاريخ. منعمل commit جديد بيلغي الغلط. انسخ الأوامر من هون، أو قارن الطريقتين بالمحاكي.</p>
+
+  <div class="cmds" id="cmds"></div>
+
+  <section class="sim">
+    <h2><span>🧪 المحاكي: جهازك، والسيرفر، وجهاز سارة</span><button type="button" id="again">من الأول</button></h2>
+    <div class="tabs" role="group" aria-label="الطريقة">
+      <button type="button" class="good" data-mode="revert" aria-pressed="true">✓ revert + push</button>
+      <button type="button" class="bad" data-mode="reset" aria-pressed="false">✗ reset + push --force</button>
+    </div>
+    <div class="steps" id="steps"></div>
+    <svg id="g" viewBox="0 0 700 335" role="img" aria-label="رسمة الـ commits عند كل واحد"></svg>
+    <div class="term" id="term"></div>
+    <p class="msg" id="msg" aria-live="polite"></p>
+  </section>
+
+  <div class="warn">⚠️ <code>git revert HEAD</code> بيلغي <b>آخر commit</b>. إذا الغلط بـ commit أقدم، جيب الـ hash تبعه من <code>git log --oneline</code> واكتب <code>git revert &lt;hash&gt;</code>.</div>
+
+  <section class="panel">
+    <p><b>ليش مش reset؟</b> الـ commit صار على السيرفر، وسارة سحبته وبنت فوقه. <code>reset</code> مع <code>push --force</code> بيغيّر التاريخ على السيرفر، فتاريخ سارة ما عاد يطابقه، ولما تعمل push ممكن يرجع الغلط أو يضيع شغل.</p>
+    <p><b>1.</b> <code>git revert HEAD</code>: بيعمل commit جديد عكس الغلط. التاريخ ما بيتغير، بس بينضاف عليه.</p>
+    <p><b>2.</b> <code>git push</code>: push عادي، بدون force. والفريق بياخد التصحيح بـ <code>git pull</code> متل أي commit.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الكود</a></footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const COPY = ['git revert HEAD', 'git push'];
+  $('cmds').innerHTML = COPY.map((c) => `<div class="cmd"><code><b>$</b> ${c}</code><button type="button" data-copy="${c}">انسخ</button></div>`).join('');
+  $('cmds').addEventListener('click', (e) => {
+    const c = e.target.dataset.copy; if (!c) return;
+    (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { e.target.textContent = '✓ انسخ'; setTimeout(() => e.target.textContent = 'انسخ', 1200); }).catch(() => {});
+  });
+
+  // commits: A B C (good), D = the bug, R = revert of D, S = Sara's own work
+  const C = { A: ['init', 'ok'], B: ['header', 'ok'], C: ['footer', 'ok'], D: ['checkout', 'bug'], R: ['Revert', 'fix'], S: ['sara: cart', 'sara'] };
+  const START = () => ({ me: ['A', 'B', 'C', 'D'], origin: ['A', 'B', 'C', 'D'], sara: ['A', 'B', 'C', 'D', 'S'], saraBroken: false });
+  const PLANS = {
+    revert: [
+      { cmd: 'git revert HEAD', who: 'me', run: (s) => { s.me.push('R'); }, out: '[main 9c1e2f7] Revert "checkout"', msg: '✓ commit جديد بيلغي الغلط. التاريخ القديم لسا موجود.', ok: true },
+      { cmd: 'git push', who: 'me', run: (s) => { s.origin = [...s.me]; }, out: '   a91f2e0..9c1e2f7  main -> main', msg: '✓ push عادي، بدون force. السيرفر صار فيه التصحيح.', ok: true },
+      { cmd: 'git pull   (sara)', who: 'sara', run: (s) => { s.sara = ['A', 'B', 'C', 'D', 'R', 'S']; }, out: 'Successfully rebased and updated refs/heads/main.', msg: '✓ سارة أخدت التصحيح… وشغلها (cart) لسا موجود.', ok: true },
+    ],
+    reset: [
+      { cmd: 'git reset --hard HEAD~1', who: 'me', run: (s) => { s.me.pop(); }, out: 'HEAD is now at 3f2a1c4 footer', msg: 'شلنا الـ commit من عندك… بس لسا على السيرفر وعند سارة.', ok: null },
+      { cmd: 'git push', who: 'me', run: () => {}, out: '<span class="e"> ! [rejected]        main -> main (non-fast-forward)</span>', msg: '✗ السيرفر رفض: تاريخك صار مختلف عن تاريخه.', ok: false },
+      { cmd: 'git push --force', who: 'me', run: (s) => { s.origin = [...s.me]; }, out: ' + a91f2e0...3f2a1c4 main -> main (forced update)', msg: 'غيّرنا التاريخ على السيرفر بالقوة…', ok: null },
+      { cmd: 'git pull   (sara)', who: 'sara', run: (s) => { s.saraBroken = true; }, out: '<span class="e">hint: You have divergent branches and need to specify how to reconcile them.</span>', msg: '✗ تاريخ سارة ما عاد يطابق السيرفر. ولو عملت push، الغلط (checkout) بيرجع.', ok: false },
+    ],
+  };
+  let mode = 'revert', step = 0, state = START(), log = [];
+
+  function lane(y, label, ids, extra) {
+    const X0 = 175, DX = 95;
+    let s = `<text x="12" y="${y + 6}" font-family="Cairo" font-weight="900" font-size="22" fill="#fbf1e4">${label}</text>`;
+    ids.forEach((id, i) => {
+      const x = X0 + i * DX, [name, kind] = C[id];
+      const fill = { ok: '#5a4634', bug: '#c0565a', fix: '#2f6b45', sara: '#2b3d6b' }[kind];
+      const st = { ok: '#8a7058', bug: '#ff8a8a', fix: '#7ddc9a', sara: '#9bb8ff' }[kind];
+      if (i) s += `<line x1="${x - DX + 15}" y1="${y}" x2="${x - 15}" y2="${y}" stroke="#6b5a48" stroke-width="4"/>`;
+      s += `<circle cx="${x}" cy="${y}" r="17" fill="${fill}" stroke="${st}" stroke-width="3.5"/>`;
+      s += `<text x="${x}" y="${y + 36}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" fill="#b9a593">${name}</text>`;
+    });
+    if (extra) s += extra(X0 + (ids.length - 1) * DX);
+    return s;
+  }
+  function draw() {
+    let s = '';
+    s += lane(50, '💻 جهازك', state.me);
+    s += lane(150, '☁ السيرفر', state.origin);
+    s += lane(250, '👩‍💻 سارة', state.sara, (xl) => state.saraBroken
+      ? `<text x="${xl}" y="318" text-anchor="end" font-family="Cairo" font-weight="900" font-size="20" fill="#ff9a9a">😵 تاريخ سارة ما بيطابق السيرفر</text>` : '');
+    $('g').innerHTML = s;
+    const plan = PLANS[mode];
+    $('steps').innerHTML = plan.map((p, i) => `<button type="button" class="${i === step ? 'run' : ''}" data-i="${i}" ${i !== step ? 'disabled' : ''}>▶ ${p.cmd}</button>`).join('');
+    $('term').innerHTML = log.length ? log.join('\n') : '$ git log --oneline origin/main\na91f2e0 checkout   ← oops, already pushed';
+    const last = step ? plan[step - 1] : null;
+    $('msg').className = 'msg ' + (last ? (last.ok === true ? 'good' : last.ok === false ? 'bad' : '') : '');
+    $('msg').textContent = last ? last.msg : (mode === 'revert' ? 'اضغط على أول أمر.' : 'جرّب الطريقة الغلط وشوف شو بيصير عند سارة.');
+  }
+  $('steps').addEventListener('click', (e) => {
+    const i = e.target.closest('button')?.dataset.i; if (i === undefined || +i !== step) return;
+    const p = PLANS[mode][step]; p.run(state); log.push('$ ' + p.cmd.replace(/\s+\(sara\)/, '   # sara'), p.out); step++; draw();
+  });
+  function restart() { step = 0; state = START(); log = []; draw(); }
+  document.querySelectorAll('.tabs button').forEach((b) => b.onclick = () => {
+    mode = b.dataset.mode; document.querySelectorAll('.tabs button').forEach((x) => x.setAttribute('aria-pressed', x === b)); restart();
+  });
+  $('again').onclick = restart;
+  draw();
+</script>
+</body>
+</html>
