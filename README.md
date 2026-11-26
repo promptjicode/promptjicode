@@ -214,6 +214,13 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/git/02-revert-after-push/">▶ جرّب بالمحاكي</a></td>
 <td align="center"><a href="git/02-revert-after-push/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">03</td>
+<td align="center">عملت reset --hard… وراح شغلك؟</td>
+<td align="center"><code dir="ltr">reflog</code> · <code dir="ltr">reset --hard HEAD@{1}</code></td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/git/03-reflog/">▶ جرّب بالمحاكي</a></td>
+<td align="center"><a href="git/03-reflog/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">كيف تجرّب</h2>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أنقذتك من كارثة #03 · reset --hard بالغلط؟ git reflog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --blue: #9bb8ff; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--blue); border: 2px solid rgba(155,184,255,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .cmds { display: grid; gap: 10px; margin-bottom: 16px; }
+  .cmd { display: flex; align-items: center; gap: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 14px; padding: 10px 12px; direction: ltr; }
+  .cmd code { flex: 1; font-size: 16px; color: #e6edf3; }
+  .cmd code b { color: var(--good); font-weight: 400; }
+  .cmd button, .tabs button, .steps button { font: inherit; font-size: 13px; font-weight: 900; border-radius: 10px; padding: 6px 12px; cursor: pointer; border: 2px solid var(--line); background: var(--card); color: var(--ink); direction: rtl; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tabs button { font-size: 14px; padding: 8px 14px; }
+  .tabs button[aria-pressed="true"].bad { background: #2a1515; border-color: var(--bad); color: #ffb3b3; }
+  .tabs button[aria-pressed="true"].good { background: #13261a; border-color: var(--good); color: #9ef0b8; }
+  .steps { display: flex; gap: 6px; flex-wrap: wrap; direction: ltr; margin: 8px 0; }
+  .steps button { font-family: "JetBrains Mono", monospace; font-weight: 700; direction: ltr; }
+  .steps button.run { background: var(--blue); color: #0d1424; border-color: var(--blue); }
+  .steps button:disabled { opacity: .35; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .sim { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 14px; }
+  .sim h2 { margin: 0 0 8px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .sim h2 button { font: inherit; font-size: 13px; font-weight: 700; background: none; border: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+  svg { width: 100%; height: auto; display: block; direction: ltr; }
+  .term { margin-top: 10px; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 12px; min-height: 60px; direction: ltr; font-family: "JetBrains Mono", monospace; font-size: 13px; color: #8b949e; white-space: pre-wrap; }
+  .term .e { color: var(--bad); }
+  .msg { margin-top: 10px; font-weight: 900; min-height: 26px; line-height: 1.8; }
+  .msg.bad { color: #ff9a9a; } .msg.good { color: var(--good); }
+  .warn { background: #2a2412; border: 2px solid #6b5a2c; color: #ffd479; border-radius: 16px; padding: 12px 16px; margin-top: 16px; line-height: 1.8; font-weight: 700; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 16px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+  .rl { display: flex; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 8px; }
+  .rl span { flex: 1; }
+  .rl .h { color: #febc2e; } .rl .y { color: #d2a8ff; }
+  .rl button { font: 700 12px Cairo, sans-serif; border-radius: 8px; padding: 3px 10px; cursor: pointer; border: 2px solid #2f6b45; background: #13261a; color: #9ef0b8; direction: rtl; }
+  .rl.now { background: rgba(155,184,255,.08); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">🛟 أنقذتك من كارثة #03 · Git</span>
+  <h1>عملت <code>reset --hard</code>… وراح شغلك؟</h1>
+  <p class="sub">لا تخاف، Git ما بينسى شي. <code>git reflog</code> بيوريك كل مكان كان فيه الـ HEAD، حتى الـ commits اللي «مسحتها». انسخ الأوامر، أو جرّب بالمحاكي.</p>
+
+  <div class="cmds" id="cmds"></div>
+
+  <section class="sim">
+    <h2><span>🧪 المحاكي</span><button type="button" id="again">من الأول</button></h2>
+    <div class="steps" id="steps"></div>
+    <svg id="g" viewBox="0 0 700 170" role="img" aria-label="رسمة الـ commits"></svg>
+    <div class="term" id="term"></div>
+    <p class="msg" id="msg" aria-live="polite"></p>
+  </section>
+
+  <div class="warn">⚠️ <code>reflog</code> بيرجّع بس الشغل اللي كان معمولو <b>commit</b>. التعديلات اللي ما انحفظت بـ commit وراحت بـ <code>--hard</code> ما بترجع. والـ reflog محلي على جهازك، وبيضل حوالي 90 يوم.</div>
+
+  <section class="panel">
+    <p><b>1.</b> <code>git reflog</code>: لستة بكل مكان كان فيه الـ HEAD. أول سطر <code>HEAD@{0}</code> هو هلّق، و<code>HEAD@{1}</code> هو المكان اللي قبلو.</p>
+    <p><b>2.</b> <code>git reset --hard HEAD@{1}</code>: رجّع الـ branch لهديك النقطة، فبيرجعوا الـ commits.</p>
+    <p><b>إذا عملت كذا أمر بعد الغلط،</b> ما بيكون دايماً <code>{1}</code>. دوّر باللستة على آخر commit بتعرفه، واستعمل الرقم تبعه أو الـ hash.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الكود</a></footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const COPY = ['git reflog', 'git reset --hard HEAD@{1}'];
+  $('cmds').innerHTML = COPY.map((c) => `<div class="cmd"><code><b>$</b> ${c}</code><button type="button" data-copy="${c}">انسخ</button></div>`).join('');
+  $('cmds').addEventListener('click', (e) => {
+    const c = e.target.dataset.copy; if (!c) return;
+    (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { e.target.textContent = '✓ انسخ'; setTimeout(() => e.target.textContent = 'انسخ', 1200); }).catch(() => {});
+  });
+
+  const COMMITS = [['b2c9e10', 'init'], ['b7e1a20', 'header'], ['a3f0c55', 'login'], ['d4c9f13', 'cart']];
+  let head, moves, phase, log, shown;   // head = index of the commit main points to; moves = reflog entries (newest last)
+  function restart() { head = 3; moves = [[0, 'commit: init'], [1, 'commit: header'], [2, 'commit: login'], [3, 'commit: cart']]; phase = 0; log = []; shown = false; draw(); }
+  const reflog = () => moves.slice().reverse().map((m, i) => ({ i, at: m[0], text: m[1] }));
+
+  function draw() {
+    const X0 = 110, DX = 160, y = 70;
+    let s = '';
+    COMMITS.forEach(([h, name], i) => {
+      const x = X0 + i * DX, lost = i > head;
+      if (i) s += `<line x1="${x - DX + 18}" y1="${y}" x2="${x - 18}" y2="${y}" stroke="#6b5a48" stroke-width="5" ${lost ? 'stroke-dasharray="10 8" opacity=".35"' : ''}/>`;
+      s += `<circle cx="${x}" cy="${y}" r="18" fill="#5a4634" stroke="#8a7058" stroke-width="4" ${lost ? 'stroke-dasharray="6 5" opacity=".35"' : ''}/>`;
+      s += `<text x="${x}" y="${y + 42}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#b9a593" ${lost ? 'opacity=".35"' : ''}>${name}</text>`;
+      if (lost) s += `<text x="${x}" y="${y - 32}" text-anchor="middle" font-size="20">👻</text>`;
+    });
+    const hx = X0 + head * DX;
+    s += `<rect x="${hx - 70}" y="${y + 58}" width="140" height="32" rx="9" fill="#16203a" stroke="#3b5aa0" stroke-width="2"/><text x="${hx}" y="${y + 80}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="16" fill="#cfe0ff">main · HEAD</text>`;
+    $('g').innerHTML = s;
+
+    const steps = [];
+    if (phase === 0) steps.push(['💥 git reset --hard HEAD~2', 'oops']);
+    if (phase >= 1) steps.push(['git reflog', 'reflog']);
+    $('steps').innerHTML = steps.map(([t, a]) => `<button type="button" class="run" data-a="${a}">▶ ${t}</button>`).join('');
+
+    let html = log.join('\n');
+    if (shown) html += (html ? '\n' : '') + '$ git reflog\n' + reflog().map((r) => `<div class="rl ${r.i === 0 ? 'now' : ''}"><span><span class="y">${COMMITS[r.at][0]}</span> <span class="h">HEAD@{${r.i}}</span>: ${r.text}</span>${r.i ? `<button type="button" data-back="${r.i}">رجّع لهون</button>` : ''}</div>`).join('');
+    $('term').innerHTML = html || '$ git log --oneline\nd4c9f13 (HEAD -> main) cart\na3f0c55 login\nb7e1a20 header\nb2c9e10 init';
+  }
+  $('steps').addEventListener('click', (e) => {
+    const a = e.target.closest('button')?.dataset.a; if (!a) return;
+    if (a === 'oops') { head = 1; moves.push([1, 'reset: moving to HEAD~2']); phase = 1; shown = false; log = ['$ git reset --hard HEAD~2', 'HEAD is now at b7e1a20 header'];
+      $('msg').className = 'msg bad'; $('msg').textContent = '😱 login وcart راحوا… جرّب git reflog'; }
+    if (a === 'reflog') { shown = true; $('msg').className = 'msg'; $('msg').innerHTML = 'هيك بيطلعلك كل مكان كنت فيه، حتى اللي مسحته. اضغط «رجّع لهون» جنب السطر <code>commit: cart</code>.'; }
+    draw();
+  });
+  $('term').addEventListener('click', (e) => {
+    const n = e.target.dataset.back; if (n === undefined) return;
+    const r = reflog()[+n]; head = r.at; moves.push([r.at, `reset: moving to HEAD@{${n}}`]);
+    log.push(`$ git reset --hard HEAD@{${n}}`, `HEAD is now at ${COMMITS[r.at][0]} ${COMMITS[r.at][1]}`); shown = false;
+    const ok = head === 3;
+    $('msg').className = 'msg ' + (ok ? 'good' : '');
+    $('msg').textContent = ok ? '✓ رجع كل شغلك… كأنو ما صار شي.' : `رجعت لـ ${COMMITS[r.at][1]}. جرّب git reflog كمان مرة واختار سطر cart.`;
+    draw();
+  });
+  $('again').onclick = () => { restart(); $('msg').className = 'msg'; $('msg').textContent = 'اضغط على الأمر الأحمر لتعمل الكارثة 😅'; };
+  $('again').onclick();
+</script>
+</body>
+</html>
