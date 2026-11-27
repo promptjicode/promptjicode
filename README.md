@@ -9,16 +9,9 @@
 <div align="center">
 <table dir="rtl">
 <tr>
-<td align="center" width="50%">
-<h3 dir="rtl">🌐 الموقع الرسمي</h3>
-<p dir="rtl">كل الريلات والأسئلة وأوامر Git بمكان واحد، بالعربي والإنجليزي والتركي.</p>
-<p><a href="https://promptjicode.com/?utm_source=github&amp;utm_medium=readme"><strong>promptjicode.com ←</strong></a></p>
-</td>
-<td align="center" width="50%">
-<h3 dir="rtl">🎯 اختبر حالك</h3>
-<p dir="rtl">اختبار أسئلة مقابلات فرونت إند: Junior وMid وSenior، مع شرح كل جواب.</p>
-<p><a href="https://interview.promptjicode.com/?utm_source=github&amp;utm_medium=readme"><strong>interview.promptjicode.com ←</strong></a></p>
-</td>
+<td align="center"><a href="https://promptjicode.com/?utm_source=github&amp;utm_medium=readme"><img src="assets/cards/promptjicode.png" width="250" alt="PromptjiCode · الموقع الرسمي: كل الريلات وأسئلة المقابلات وأوامر Git بمكان واحد (promptjicode.com)" /></a></td>
+<td align="center"><a href="https://interview.promptjicode.com/?utm_source=github&amp;utm_medium=readme"><img src="assets/cards/interview.png" width="250" alt="PromptjiCode Interview · اختبر حالك: أسئلة مقابلات فرونت إند Junior وMid وSenior (interview.promptjicode.com)" /></a></td>
+<td align="center"><a href="https://promptjicode.com/services?utm_source=github&amp;utm_medium=readme"><img src="assets/cards/promptjiweb.png" width="250" alt="PromptjiWeb · خدمات المواقع: موقع لشغلك الصغير، سريع وبثلاث لغات (promptjicode.com/services)" /></a></td>
 </tr>
 </table>
 </div>
