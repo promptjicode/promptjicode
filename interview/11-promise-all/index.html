@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سؤال مقابلة #11 · Promise.all لما وحدة ترفض</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #120c09; --card: #1f1611; --line: #3a2a20; --ink: #fbf1e4; --muted: #b9a593; --accent: #e2a15c; --good: #7ddc9a; --bad: #ff6b6b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Cairo, sans-serif; background: var(--bg); color: var(--ink); padding: 28px 16px 60px; }
+  main { max-width: 760px; margin: 0 auto; }
+  code, .mono { font-family: "JetBrains Mono", monospace; direction: ltr; unicode-bidi: isolate; }
+  .badge { display: inline-block; font-weight: 900; color: var(--accent); border: 2px solid rgba(226,161,92,.55); border-radius: 99px; padding: 4px 16px; font-size: 14px; }
+  h1 { font-size: 28px; font-weight: 900; margin: 10px 0 6px; }
+  .sub { color: var(--muted); line-height: 1.8; margin: 0 0 16px; }
+  .reqs { display: grid; gap: 8px; }
+  .req { display: grid; grid-template-columns: 74px 1fr 92px; align-items: center; gap: 10px; background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 8px 10px; direction: ltr; }
+  .req .n { font: 700 14px "JetBrains Mono", monospace; }
+  .req .n small { display: block; color: var(--muted); font-weight: 400; font-size: 11px; }
+  .track { position: relative; height: 26px; background: #14100d; border-radius: 8px; overflow: hidden; }
+  .bar { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 8px; background: #5a4634; }
+  .bar.ok { background: #2f6b45; } .bar.no { background: #a8434a; } .bar.lost { opacity: .35; }
+  .track span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px "JetBrains Mono", monospace; }
+  .req button { font: 700 13px Cairo, sans-serif; border-radius: 10px; padding: 6px 8px; cursor: pointer; border: 2px solid; direction: rtl; }
+  .req button[data-ok="1"] { background: #13261a; border-color: #2f6b45; color: #9ef0b8; }
+  .req button[data-ok="0"] { background: #2a1515; border-color: #6b2c2c; color: #ffb3b3; }
+  .run { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .run button { font: 700 15px "JetBrains Mono", monospace; border-radius: 14px; padding: 12px; cursor: pointer; border: 2px solid var(--accent); background: rgba(226,161,92,.12); color: var(--ink); }
+  .run button:disabled { opacity: .45; cursor: default; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .lock { text-align: center; font-weight: 900; min-height: 30px; font-size: 17px; }
+  .lock.bad { color: #ff9a9a; } .lock.good { color: var(--good); }
+  pre { margin: 0; background: #0d1117; border: 2px solid #2a313c; border-radius: 12px; padding: 10px 12px; font: 13px/1.7 "JetBrains Mono", monospace; color: #c9d1d9; direction: ltr; text-align: left; white-space: pre-wrap; min-height: 72px; }
+  pre .e { color: var(--bad); } pre .o { color: var(--good); } pre .m { color: #8b949e; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 22px; padding: 18px; margin-top: 18px; line-height: 1.9; }
+  .panel b { color: var(--accent); }
+  footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">سؤال مقابلة فرونت إند #11 · 🟡 Mid · JavaScript</span>
+  <h1>تلات طلبات… وحدة فشلت. شو بيصير؟</h1>
+  <p class="sub">اختار لكل طلب إذا بينجح أو بيفشل، وشغّل نفس الطلبات مرة بـ <code>Promise.all</code> ومرة بـ <code>Promise.allSettled</code>. هاد كود حقيقي بيشتغل بالمتصفح.</p>
+
+  <div class="reqs" id="reqs"></div>
+  <div class="run">
+    <button type="button" data-run="all">▶ Promise.all</button>
+    <button type="button" data-run="allSettled">▶ allSettled</button>
+  </div>
+  <div class="lock" id="lock" aria-live="polite"></div>
+  <pre id="out"><span class="m">// console</span></pre>
+
+  <section class="panel">
+    <p><b>ليش <code>error: posts</code>؟</b> <code>Promise.all</code> يا كلهن ينجحوا… يا ولا شي. أول ما وحدة ترفض (posts بعد 100ms) بيرفض كلو فوراً، وما بيستنى الباقي. الطلبين التانيين بيكمّلوا، بس نتيجتهن بتضيع، ومنروح على <code>catch</code>.</p>
+    <p><b>والحل؟</b> إذا بدك النتايج الناجحة حتى لو وحدة فشلت، استعمل <code>Promise.allSettled</code>: بيستنى الكل، وبيعطيك لكل وحدة <code>status</code>: <code>'fulfilled'</code> أو <code>'rejected'</code>.</p>
+    <p><b>وهلّق إذا…؟</b> بالـ <code>allSettled</code> مع <code>map(x =&gt; x.status)</code> بيطبع <code>['fulfilled', 'rejected', 'fulfilled']</code>. جرّبها بالزر التاني.</p>
+  </section>
+
+  <footer>PromptjiCode · اكتبها صح… بتطلع صح · <a href="https://github.com/promptjicode/promptjicode">كل الأسئلة والكود</a></footer>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const REQ = [{ name: 'user', ms: 300, v: 1, ok: true }, { name: 'posts', ms: 100, v: 'posts', ok: false }, { name: 'ads', ms: 500, v: 3, ok: true }];
+  const SCALE = 5;   // the demo runs 5x slower than the code so you can watch it
+  $('reqs').innerHTML = REQ.map((r, i) => `<div class="req"><div class="n">${r.name}<small>${r.ms}ms</small></div><div class="track"><div class="bar" id="b${i}"></div><span id="t${i}"></span></div><button type="button" data-i="${i}"></button></div>`).join('');
+  function paint() { REQ.forEach((r, i) => { const b = document.querySelector(`[data-i="${i}"]`); b.dataset.ok = r.ok ? 1 : 0; b.textContent = r.ok ? '✓ بينجح' : '✗ بيفشل'; }); }
+  $('reqs').addEventListener('click', (e) => { const i = e.target.dataset.i; if (i === undefined || busy) return; REQ[i].ok = !REQ[i].ok; paint(); });
+  paint();
+
+  let busy = false;
+  const log = (html) => { $('out').innerHTML += '\n' + html; };
+  async function run(kind) {
+    busy = true; document.querySelectorAll('.run button').forEach((b) => b.disabled = true);
+    $('out').innerHTML = `<span class="m">// Promise.${kind}(…)</span>`; $('lock').textContent = '⏳ عم نستنى…'; $('lock').className = 'lock';
+    let settled = false;
+    const ps = REQ.map((r, i) => {
+      const bar = $('b' + i); bar.className = 'bar'; bar.style.transition = 'none'; bar.style.width = '0';
+      $('t' + i).textContent = '';
+      requestAnimationFrame(() => { bar.style.transition = `width ${r.ms * SCALE / 1000}s linear`; bar.style.width = (r.ms / 500 * 100) + '%'; });
+      return new Promise((res, rej) => setTimeout(() => {
+        bar.classList.add(r.ok ? 'ok' : 'no'); if (settled && kind === 'all') bar.classList.add('lost');
+        $('t' + i).textContent = r.ok ? `✓ ${JSON.stringify(r.v)}` : `✗ ${r.v}`;
+        if (settled && kind === 'all') $('t' + i).textContent += '  (ضاعت)';
+        r.ok ? res(r.v) : rej(r.v);
+      }, r.ms * SCALE));
+    });
+    try {
+      const out = await Promise[kind](ps);
+      settled = true;
+      if (kind === 'all') { log(`<span class="o">[${out.map((x) => JSON.stringify(x)).join(', ')}]</span>`); $('lock').textContent = '✓ كلهن نجحوا'; $('lock').className = 'lock good'; }
+      else { log(`<span class="o">[${out.map((x) => `'${x.status}'`).join(', ')}]</span>`); $('lock').textContent = '✓ allSettled استنى الكل'; $('lock').className = 'lock good'; }
+    } catch (e) {
+      settled = true;
+      log(`<span class="e">error: ${e}</span>`); $('lock').textContent = '🔒 وحدة فشلت… Promise.all رفض فوراً'; $('lock').className = 'lock bad';
+    }
+    await Promise.allSettled(ps);
+    busy = false; document.querySelectorAll('.run button').forEach((b) => b.disabled = false);
+  }
+  document.querySelectorAll('.run button').forEach((b) => b.onclick = () => run(b.dataset.run));
+</script>
+</body>
+</html>

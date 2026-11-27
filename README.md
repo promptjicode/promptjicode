@@ -185,6 +185,14 @@
 <td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/10-specificity/">▶ جرّب بإيدك</a></td>
 <td align="center"><a href="interview/10-specificity/README.md">README</a></td>
 </tr>
+<tr>
+<td align="center">11</td>
+<td align="center">تلات طلبات… وحدة فشلت!</td>
+<td align="center">🟡 Mid</td>
+<td align="center">Promise.all</td>
+<td align="center"><a href="https://promptjicode.github.io/promptjicode/interview/11-promise-all/">▶ جرّب بإيدك</a></td>
+<td align="center"><a href="interview/11-promise-all/README.md">README</a></td>
+</tr>
 </tbody>
 </table>
 <h2 dir="rtl">🛟 أنقذتك من كارثة</h2>
