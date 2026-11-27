@@ -5,6 +5,23 @@
 <p dir="rtl">مبرمج فرونت إند، بجرّب البرومبتات بعين المبرمج:
 نفس الطلب مكتوب مرتين، والفرق بالتصميم وبالكود.</p>
 </div>
+<br />
+<div align="center">
+<table dir="rtl">
+<tr>
+<td align="center" width="50%">
+<h3 dir="rtl">🌐 الموقع الرسمي</h3>
+<p dir="rtl">كل الريلات والأسئلة وأوامر Git بمكان واحد، بالعربي والإنجليزي والتركي.</p>
+<p><a href="https://promptjicode.com/?utm_source=github&amp;utm_medium=readme"><strong>promptjicode.com ←</strong></a></p>
+</td>
+<td align="center" width="50%">
+<h3 dir="rtl">🎯 اختبر حالك</h3>
+<p dir="rtl">اختبار أسئلة مقابلات فرونت إند: Junior وMid وSenior، مع شرح كل جواب.</p>
+<p><a href="https://interview.promptjicode.com/?utm_source=github&amp;utm_medium=readme"><strong>interview.promptjicode.com ←</strong></a></p>
+</td>
+</tr>
+</table>
+</div>
 <hr />
 <h2 dir="rtl">الريلات</h2>
 <p dir="rtl">كل مجلد هو ريل: فيه البرومبت اللي استخدمته، والكود اللي طلع. اضغط <strong>جرّب</strong> لتفتح الصفحة شغّالة، حتى من الموبايل.</p>
